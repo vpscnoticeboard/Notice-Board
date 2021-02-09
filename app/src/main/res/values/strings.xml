@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">V.P.NOTICE</string>
+    <string name="collegename">V.P and R.P.T.P </string>
+    <string name="collegename3">SCIENCE COLLEGE,</string>
+    <string name="collegename2">V.V.NAGAR, ANAND</string>
+    <string name="loginbtntxt">Log_in</string>
+    <string name="signupbtntxt">Sign_up</string>
+    <string name="collegelogo">collegelogo</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="todo">TODO</string>
+
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="edit_profile_triangale_label">Design</string>
+
+    <string name="img_desc_enter_email">Email Address</string>
+    <string name="img_desc_gender">Gender</string>
+    <string name="img_desc_dob">Date of Birth</string>
+    <string name="img_desc_btn_select_dob">Select date of birth</string>
+    <string name="img_desc_department">Department</string>
+    <string name="img_desc_password">Password</string>
+    <string name="img_desc_phone_no">Phone No</string>
+    <string name="img_desc_year">Student Year</string>
+    <string name="img_desc_designation">Designation</string>
+    <string name="img_desc_notice_select_last_date">Calender</string>
+    <string name="img_desc_cover_profile_picture">Profile picture</string>
+    <string name="img_desc_btn_edit_profile">Edit Profile</string>
+
+
+    <string name="rbtn_male">Male</string>
+    <string name="rbtn_female">Female</string>
+    <string name="email">E-Mail</string>
+    <string name="date_of_birth">Date_Of_Birth</string>
+    <string name="first_name">First_Name</string>
+
+    <string name="last_name">Last_Name</string>
+    <string name="sign_up">sign_up</string>
+    <string name="confirm_password">Confirm_Password</string>
+    <string name="password">Password</string>
+    <string name="mobile_no">Mobile_no</string>
+    <string name="forgot_password">Forgot Password ?</string>
+
+    <string-array name="type">
+        <item>STUDENT</item>
+        <item>STAFF</item>
+        <item>PARENTS</item>
+
+    </string-array>
+
+    <string-array name="stream">
+        <item>BCA</item>
+        <item>B.sc(C.S)</item>
+        <item>B.sc(IT)</item>
+        <item>Parents</item>
+
+    </string-array>
+
+</resources>

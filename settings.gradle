@@ -1,0 +1,3 @@
+include ':shivam'
+include ':app'
+rootProject.name = "projrctlogin"

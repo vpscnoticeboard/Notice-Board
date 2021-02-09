@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_pink_blue"
+    tools:context=".Register">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/noticeboard"
+                    android:contentDescription="@string/todo" />
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/btn_presto_back"
+        android:fontFamily="@font/open_sans"
+        android:onClick="btnsignupclick"
+        android:text="@string/sign_up"
+        android:textAllCaps="false"
+        android:textColor="@color/colorwhite"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivImagePerson"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="70dp"
+        android:elevation="5dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/default_profile_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/progressbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:targetApi="lollipop" />
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/gradient_light_gray"
+        android:foregroundGravity="center"
+        android:paddingStart="28dp"
+        android:paddingTop="50dp"
+        android:paddingEnd="28dp"
+        android:paddingBottom="5dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ivImagePerson"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="346dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:paddingStart="2dp"
+            android:paddingEnd="4dp"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                style="@style/register_field_layout"
+                android:layout_marginTop="5dp">
+
+                <EditText
+                    android:id="@+id/edt_first_name"
+                    style="@style/register_edt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.48"
+                    android:autofillHints=""
+                    android:hint="@string/first_name"
+                    android:inputType="textPersonName"
+                    android:maxLength="15" />
+
+                <View style="@style/register_view_line" />
+
+                <EditText
+                    android:id="@+id/edt_last_name"
+                    style="@style/register_edt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.49"
+                    android:autofillHints=""
+                    android:hint="@string/last_name"
+                    android:inputType="textPersonName"
+                    android:maxLength="15" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+                <ImageView
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_enter_email"
+                    android:src="@drawable/ic_email" />
+
+                <View style="@style/register_view_line" />
+
+                <EditText
+                    android:id="@+id/edt_email"
+                    style="@style/register_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints=""
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="50" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+                <ImageView
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_gender"
+                    android:src="@drawable/ic_gender" />
+
+                <View style="@style/register_view_line" />
+
+                <RadioGroup
+                    android:id="@+id/rGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="0dp">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rbtn_male"
+                        style="@style/register_radio_btn"
+                        android:layout_weight="0.47"
+                        android:checked="true"
+                        android:text="@string/rbtn_male" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rbtn_female"
+                        style="@style/register_radio_btn"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="0.78"
+                        android:text="@string/rbtn_female" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+                <ImageView
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_dob"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_birthday" />
+
+                <EditText
+                    android:id="@+id/edt_dob"
+                    style="@style/register_edt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:autofillHints=""
+                    android:background="@drawable/gradient_disabled_edt_text"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="@string/date_of_birth"
+                    android:inputType="date" />
+
+
+                <ImageView
+                    android:id="@+id/img_btn_calendar"
+                    style="@style/register_img"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:contentDescription="@string/img_desc_btn_select_dob"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_calendar" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+                <ImageView
+                    android:id="@+id/txtDepartment"
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_department"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_designation" />
+
+
+                <View style="@style/register_view_line" />
+
+                <Spinner
+                    android:id="@+id/Type"
+                    style="@style/register_spn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+                <ImageView
+                    android:id="@+id/txtDesignation"
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_designation"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_department" />
+
+                <View style="@style/register_view_line" />
+
+                <Spinner
+                    android:id="@+id/stream"
+                    style="@style/register_spn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+                <ImageView
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_year"
+                    android:src="@drawable/ic_phone" />
+
+                <View style="@style/register_view_line" />
+
+                <EditText
+                    android:id="@+id/edt_phone_no"
+                    style="@style/register_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints=""
+                    android:hint="@string/mobile_no"
+                    android:inputType="phone"
+                    android:maxLength="10" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/register_field_layout"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_password"
+                    android:src="@drawable/ic_lock" />
+
+
+                <View style="@style/register_view_line" />
+
+                <EditText
+                    android:id="@+id/password"
+                    style="@style/register_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints=""
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLength="12" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/register_field_layout">
+
+
+                <ImageView
+                    style="@style/register_img"
+                    android:contentDescription="@string/img_desc_password"
+                    android:src="@drawable/ic_lock" />
+
+
+                <View style="@style/register_view_line" />
+
+                <EditText
+                    android:id="@+id/confirmPassword"
+                    style="@style/register_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints=""
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:maxLength="12" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressbar"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        app:SpinKit_Color="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
