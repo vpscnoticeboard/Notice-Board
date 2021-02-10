@@ -1,8 +1,8 @@
-
-
 package com.example.projrctlogin
 
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
+import android.app.TaskInfo
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -15,6 +15,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_register.*
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
     var formate = SimpleDateFormat("dd MMM, YYYY", Locale.US)
     lateinit var typebar: Spinner
     lateinit var streambar: Spinner
@@ -39,6 +42,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     lateinit var profilepic: CircleImageView
     lateinit var show_calender: ImageView
     lateinit var dob: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -102,6 +106,9 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val password:Boolean=passwordcheck(password, confirmpassword)
 
            if(fname and lname and email and mobile and password){
+               //calling function for creating user
+                   createaccount()
+
                val intent = Intent(applicationContext, Loginpage::class.java)
                startActivity(intent)
                finish()
@@ -134,6 +141,52 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     }//------------on create complete................
+
+    //function for creating user
+    private fun createaccount() {
+        //storing all the values into variables
+            val fname=edt_first_name.text.toString()
+            val lname=edt_last_name.text.toString()
+            val email=edt_email.text.toString()
+            var gender="null"
+            if (rbtn_male.isChecked)
+            {
+                gender="Male"
+            }
+            else
+            {
+                gender="Female"
+            }
+            val dateofbirth=edt_dob.text.toString()
+            val typeofaccount=Type.selectedItem.toString()
+            val stream=stream.selectedItem.toString()
+            val mobileno=edt_phone_no.text.toString()
+            val password=password.text.toString()
+
+            // for firebase auth
+        when{
+                   else ->{
+                       val ProgressDialog = ProgressDialog(this)
+                       ProgressDialog.setTitle("Signup")
+                       ProgressDialog.setMessage("please wait this may take a while....")
+
+
+                       val maut : FirebaseAuth = FirebaseAuth.getInstance()
+
+                       maut.createUserWithEmailAndPassword(email,password)
+                           .addOnCompleteListener{task ->
+                               if (task.isSuccessful) {
+
+                               }
+                               else
+                               {
+                                    val message=task.exception.toString()
+                                   Toast.makeText(this,"Error : $message",Toast.LENGTH_SHORT).show()
+                               }
+                           }
+                   }
+               }
+    }
 
     //function for validations
     //function check fname and lname
