@@ -7,7 +7,7 @@
     <string name="signupbtntxt">Sign_up</string>
     <string name="collegelogo">collegelogo</string>
     <string name="e_mail">E-Mail</string>
-    <string name="todo">TODO</string>
+
 
     <string name="edit_profile_title">Edit Profile</string>
     <string name="edit_profile_triangale_label">Design</string>
@@ -38,6 +38,7 @@
     <string name="password">Password</string>
     <string name="mobile_no">Mobile_no</string>
     <string name="forgot_password">Forgot Password ?</string>
+    <string name="todo">TODO</string>
 
     <string-array name="type">
         <item>STUDENT</item>

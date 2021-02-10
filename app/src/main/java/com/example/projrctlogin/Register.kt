@@ -2,28 +2,43 @@
 
 package com.example.projrctlogin
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
+import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_register.*
 import org.intellij.lang.annotations.Language
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+    var formate = SimpleDateFormat("dd MMM, YYYY", Locale.US)
     lateinit var typebar: Spinner
     lateinit var streambar: Spinner
     lateinit var valtypebar: String
     lateinit var valstreambar: String
+    lateinit var fname: TextView
+    lateinit var lname: TextView
+    lateinit var signup_btnclik: Button
+    lateinit var email: TextView
+    lateinit var password: TextView
+    lateinit var confirmpassword: TextView
+    lateinit var mobile: TextView
+    lateinit var profilepic: CircleImageView
+    lateinit var show_calender: ImageView
+    lateinit var dob: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -32,13 +47,26 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
         setContentView(R.layout.activity_register)
-//        //actionbar
-//        val actionbar = supportActionBar
-//        //set actionbar title
-//        actionbar!!.title = "REGISTER"
-//        //set back button
-//        actionbar.setDisplayHomeAsUpEnabled(true)
-//        actionbar.setDisplayHomeAsUpEnabled(true)
+        //actionbar
+        val actionbar = supportActionBar
+        //set actionbar title
+        actionbar!!.title = "REGISTER"
+        //set back button
+        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar.setDisplayHomeAsUpEnabled(true)
+
+        //findviewby id declaration for allll
+        password=findViewById(R.id.password)
+        email=findViewById(R.id.edt_email)
+        signup_btnclik=findViewById(R.id.btn_sign_up)
+        mobile=findViewById(R.id.edt_phone_no)
+        confirmpassword=findViewById(R.id.confirmPassword)
+        profilepic=findViewById(R.id.ivImagePerson)
+        fname=findViewById(R.id.edt_first_name)
+        lname=findViewById(R.id.edt_last_name)
+        show_calender=findViewById(R.id.img_btn_calendar)
+        dob=findViewById(R.id.edt_dob)
+        //findview by id complete
 
 
         // add items in spinner type and stream
@@ -64,9 +92,131 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             checkPermission()
         })
 
+        //sign_up button on click methode
+        signup_btnclik.setOnClickListener {
+
+           val fname:Boolean= namecheck(fname)
+            val lname:Boolean=namecheck(lname)
+            val email:Boolean=emailcheck(email)
+            val mobile:Boolean=mobilecheck(mobile)
+            val password:Boolean=passwordcheck(password, confirmpassword)
+
+           if(fname and lname and email and mobile and password){
+               val intent = Intent(applicationContext, Loginpage::class.java)
+               startActivity(intent)
+               finish()
+           }
+
+        }
+
+        //show the calender
+            show_calender.setOnClickListener{
+                val now = Calendar.getInstance()
+                try {
+                    val datePicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                        val selectedDate = Calendar.getInstance()
+                        selectedDate.set(Calendar.YEAR,year)
+                        selectedDate.set(Calendar.MONTH,month)
+                        selectedDate.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                        val date = formate.format(selectedDate.time)
+                        dob.setText(date)
+                        Toast.makeText(this,"date : " + date, Toast.LENGTH_SHORT).show()
+                    },
+                        now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH))
+                    datePicker.show()
+                }
+                catch (e: Exception){
+
+                }
+
+            }
+
 
 
     }//------------on create complete................
+
+    //function for validations
+    //function check fname and lname
+    private fun namecheck(name: TextView): Boolean {
+        var name_check: Boolean = false
+        name.validator()
+            .nonEmpty()
+            .noNumbers()
+            .noSpecialCharacters()
+            .addErrorCallback {
+
+                name.error = it
+            }
+            .addSuccessCallback {
+                name_check = true
+            }
+
+            .check()
+        return name_check
+
+
+    }
+
+    //function for check password
+    fun passwordcheck(password: TextView, confirmpassword: TextView): Boolean {
+        var pcheck: Boolean = false
+        password.validator()
+            .nonEmpty()
+            .minLength(8)
+            .atleastOneUpperCase()
+            .atleastOneSpecialCharacters()
+            .atleastOneNumber()
+            .addErrorCallback {
+                // Invalid password
+                password.error = it
+            }
+            .addSuccessCallback {
+
+                var pass = password.text.toString()
+                var cpass = confirmpassword.text.toString()
+
+                if (pass == cpass) {
+                    pcheck = true
+                } else {
+                    confirmpassword.error = "Password Not Match"
+                }
+            }
+            .check()
+        return pcheck
+
+    }
+    //FUNCTION CHECK FOR EMAIL
+    fun emailcheck(email: TextView): Boolean {
+        var emailcheck: Boolean = false
+        email.validator()
+            .nonEmpty()
+            .validEmail()
+            .addErrorCallback {
+                // Invalid email
+                email.error = it
+            }
+            .addSuccessCallback {
+                // call Login webservice here or anything else for success usecase
+                emailcheck = true
+            }
+            .check()
+        return emailcheck
+    }
+//FUNCTION CHECK FOR MOBILENUMBER
+    fun mobilecheck(mobile: TextView): Boolean {
+        var mobilecheck: Boolean = false
+        mobile.validator()
+            .validNumber()
+            .nonEmpty()
+            .addErrorCallback { mobile.error = it }
+            .addSuccessCallback {
+                mobilecheck = true
+            }
+            .check()
+        return mobilecheck
+    }
+
+
 
     //code for the image load function
     val READIMAGE:Int=253
