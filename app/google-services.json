@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "694887295858",
+    "project_id": "noticeboard-c45eb",
+    "storage_bucket": "noticeboard-c45eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694887295858:android:ffe06c7fd5924cf6bacbeb",
+        "android_client_info": {
+          "package_name": "com.example.projrctlogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694887295858-kl7ud29u94hmst0rkn8i52tjpiimudss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaDc-QY4ECWq3-mBbbfb8oinDrIcTjsCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694887295858-kl7ud29u94hmst0rkn8i52tjpiimudss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
