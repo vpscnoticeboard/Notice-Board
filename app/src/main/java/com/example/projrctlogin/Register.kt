@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.ActionMode
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
@@ -42,6 +43,10 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     lateinit var profilepic: CircleImageView
     lateinit var show_calender: ImageView
     lateinit var dob: TextView
+    lateinit var rbbtnmale:RadioButton
+    lateinit var rbbtnfemale:RadioButton
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +75,10 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         lname=findViewById(R.id.edt_last_name)
         show_calender=findViewById(R.id.img_btn_calendar)
         dob=findViewById(R.id.edt_dob)
+        rbbtnmale=findViewById(R.id.rbtn_male)
+        rbbtnfemale=findViewById(R.id.rbtn_female)
+
+
         //findview by id complete
 
 
@@ -102,14 +111,16 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
            val fname:Boolean= namecheck(fname)
             val lname:Boolean=namecheck(lname)
             val email:Boolean=emailcheck(email)
-            val mobile:Boolean=mobilecheck(mobile)
+            val mobileno:Boolean=mobilecheck(mobile)
             val password:Boolean=passwordcheck(password, confirmpassword)
 
-           if(fname and lname and email and mobile and password){
+           if(fname and lname and email and mobileno and password){
+               progressbar.visibility=View.VISIBLE
                //calling function for creating user
                    createaccount()
 
-               val intent = Intent(applicationContext, Loginpage::class.java)
+               val intent = Intent(applicationContext, Mobileverify::class.java)
+               intent.putExtra("mobile",mobile.text.toString())
                startActivity(intent)
                finish()
            }
@@ -142,25 +153,35 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }//------------on create complete................
 
+    override fun onStart() {
+        super.onStart()
+        progressbar.visibility=View.INVISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressbar.visibility=View.INVISIBLE
+    }
+
     //function for creating user
     private fun createaccount() {
         //storing all the values into variables
-            val fname=edt_first_name.text.toString()
-            val lname=edt_last_name.text.toString()
-            val email=edt_email.text.toString()
-            var gender="null"
-            if (rbtn_male.isChecked)
+            val fname=fname.text.toString()
+            val lname=lname.text.toString()
+            val email=email.text.toString()
+            var gender:String?=null
+            if (rbbtnmale.isChecked)
             {
                 gender="Male"
             }
-            else
+            if (rbbtnfemale.isChecked)
             {
                 gender="Female"
             }
-            val dateofbirth=edt_dob.text.toString()
-            val typeofaccount=Type.selectedItem.toString()
-            val stream=stream.selectedItem.toString()
-            val mobileno=edt_phone_no.text.toString()
+            val dateofbirth=dob.text.toString()
+            val typeofaccount=typebar.selectedItem.toString()
+            val stream=streambar.selectedItem.toString()
+            val mobileno=mobile.text.toString()
             val password=password.text.toString()
 
             // for firebase auth

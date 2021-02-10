@@ -305,6 +305,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:foregroundGravity="center"
+        android:visibility="invisible"
         app:SpinKit_Color="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
