@@ -77,7 +77,7 @@ class Loginpage : AppCompatActivity() {
                     var intent=Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                },3000)}
+                },2000)}
                 if(btnid.id == btnsignup!!.id)
                 {
                     progressBar.visibility=View.VISIBLE

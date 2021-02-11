@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.ActionMode
 import android.view.View
@@ -50,6 +51,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     lateinit var dob: TextView
     lateinit var rbbtnmale:RadioButton
     lateinit var rbbtnfemale:RadioButton
+    lateinit var handler: Handler
 
 
 
@@ -122,10 +124,13 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
            if(fname and lname and email and mobileno and password){
                progressbar.visibility=View.VISIBLE
                //calling function for creating user
-                   createaccount()
+               createaccount()
+
            }
 
-        }
+           }
+
+
 
         //show the calender
             show_calender.setOnClickListener{
@@ -221,11 +226,14 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                            {
                                                 ProgressDialog.dismiss()
                                                Toast.makeText(this,"Account Has Been Created...",Toast.LENGTH_SHORT).show()
+                                               handler = Handler()
+                                               handler.postDelayed({
+                                                   val intent = Intent(applicationContext, Mobileverify::class.java)
+                                                   intent.putExtra("mobile",mobile.text.toString())
+                                                   startActivity(intent)
+                                                   finish()
+                                               },1000)
 
-                                               val intent = Intent(applicationContext, Mobileverify::class.java)
-                                               intent.putExtra("mobile",mobile.text.toString())
-                                               startActivity(intent)
-                                               finish()
                                            }
                                            else
                                            {
@@ -233,6 +241,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                                Toast.makeText(this,"Error : $message",Toast.LENGTH_SHORT).show()
                                                FirebaseAuth.getInstance().signOut()
                                                ProgressDialog.dismiss()
+                                               progressbar.visibility=View.INVISIBLE
                                            }
                                        }
                                }
@@ -241,6 +250,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                     val message=task.exception.toString()
                                    Toast.makeText(this,"Error : $message",Toast.LENGTH_SHORT).show()
                                    ProgressDialog.dismiss()
+                                   progressbar.visibility=View.INVISIBLE
                                }
                            }
                    }

@@ -22,7 +22,7 @@ class Mobileverify : AppCompatActivity() {
     lateinit var storedVerificationId:String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
-    lateinit var mobileno: EditText
+    lateinit var mobileno: TextView
     lateinit var getotp: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +37,10 @@ class Mobileverify : AppCompatActivity() {
 
 
         getotp.setOnClickListener {
-            if (mobilecheck(mobileno))
-            {
-                sentotp()
-            }
+
+
+              mobilecheck(mobileno)
+
 
         }
 
@@ -52,7 +52,7 @@ class Mobileverify : AppCompatActivity() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-               mobileno.setError("PROBLEM TO VERIFY")
+               mobileno.setError("PROBLEM TO VERIFY ::MAKE SURE NUMBER IS RIGHT")
                 Toast.makeText(applicationContext, "Failed", Toast.LENGTH_LONG).show()
             }
 
@@ -94,14 +94,15 @@ class Mobileverify : AppCompatActivity() {
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
     //FUNCTION CHECK FOR MOBILENUMBER
-    fun mobilecheck(mobile: EditText): Boolean {
+    fun mobilecheck(mobile: TextView): Boolean {
         var mobilecheck: Boolean = false
         mobile.validator()
             .validNumber()
             .nonEmpty()
-            .addErrorCallback { mobile.error = it }
+            .addErrorCallback { mobile.setError(it)}
             .addSuccessCallback {
                 mobilecheck = true
+                sentotp()
             }
             .check()
         return mobilecheck
