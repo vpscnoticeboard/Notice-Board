@@ -70,6 +70,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    //for enter otp
+    implementation 'com.chaos.view:pinview:1.4.3'
 
 }
 apply plugin: 'com.google.gms.google-services'

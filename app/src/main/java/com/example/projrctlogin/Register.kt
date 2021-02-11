@@ -284,8 +284,8 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             .addSuccessCallback {
 
-                var pass = password.text.toString()
-                var cpass = confirmpassword.text.toString()
+                val pass = password.text.toString()
+                val cpass = confirmpassword.text.toString()
 
                 if (pass == cpass) {
                     pcheck = true
