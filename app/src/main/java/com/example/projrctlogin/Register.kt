@@ -18,6 +18,8 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_register.*
@@ -25,6 +27,9 @@ import org.intellij.lang.annotations.Language
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
+
+
 
 class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -118,11 +123,6 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                progressbar.visibility=View.VISIBLE
                //calling function for creating user
                    createaccount()
-
-               val intent = Intent(applicationContext, Mobileverify::class.java)
-               intent.putExtra("mobile",mobile.text.toString())
-               startActivity(intent)
-               finish()
            }
 
         }
@@ -187,22 +187,60 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // for firebase auth
         when{
                    else ->{
+                       //progress Dialog
                        val ProgressDialog = ProgressDialog(this)
                        ProgressDialog.setTitle("Signup")
                        ProgressDialog.setMessage("please wait this may take a while....")
+                       ProgressDialog.setCanceledOnTouchOutside(false)
 
-
+                        //firebase auth variable
                        val maut : FirebaseAuth = FirebaseAuth.getInstance()
 
+                       //creating user in firebase auth and if user creation is successful then adding data to realtime data base
                        maut.createUserWithEmailAndPassword(email,password)
                            .addOnCompleteListener{task ->
                                if (task.isSuccessful) {
+                                   val currentuserid = FirebaseAuth.getInstance().currentUser!!.uid
+                                   val useref : DatabaseReference = FirebaseDatabase.getInstance().reference.child("user")
+                                   val usermap = HashMap<String , Any>()
+                                   usermap["uid"]=currentuserid
+                                   usermap["fname"]=fname
+                                   usermap["lname"]=lname
+                                   usermap["email"]=email
+                                   usermap["gender"]=gender.toString()
+                                   usermap["dateofbirth"]=dateofbirth
+                                   usermap["typeofaccount"]=typeofaccount
+                                   usermap["stream"]=stream
+                                   usermap["mobileno"]=mobileno
+                                   usermap["password"]=currentuserid
+                                   usermap["image"]="gs://noticeboard-c45eb.appspot.com/Default Image/default_profile_logo.jpg"
 
+                                   useref.child(currentuserid).setValue(usermap)
+                                       .addOnCompleteListener { Task->
+                                           if (task.isSuccessful)
+                                           {
+                                                ProgressDialog.dismiss()
+                                               Toast.makeText(this,"Account Has Been Created...",Toast.LENGTH_SHORT).show()
+
+                                               val intent = Intent(applicationContext, Mobileverify::class.java)
+                                               intent.putExtra("mobile",mobile.text.toString())
+                                               startActivity(intent)
+                                               finish()
+                                           }
+                                           else
+                                           {
+                                               val message=task.exception.toString()
+                                               Toast.makeText(this,"Error : $message",Toast.LENGTH_SHORT).show()
+                                               FirebaseAuth.getInstance().signOut()
+                                               ProgressDialog.dismiss()
+                                           }
+                                       }
                                }
                                else
                                {
                                     val message=task.exception.toString()
                                    Toast.makeText(this,"Error : $message",Toast.LENGTH_SHORT).show()
+                                   ProgressDialog.dismiss()
                                }
                            }
                    }
