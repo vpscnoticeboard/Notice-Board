@@ -26,8 +26,8 @@ import kotlinx.android.synthetic.main.activity_register.progressbar
 
 class Loginpage : AppCompatActivity() {
 
-    lateinit var email : EditText
-    lateinit var password: TextView
+    lateinit var emailv : EditText
+    lateinit var passwordv: TextView
     lateinit var handler: Handler
     lateinit var progressBar : SpinKitView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,15 +37,17 @@ class Loginpage : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_loginpage)
 
-        email=findViewById(R.id.loginid)
-        password=findViewById(R.id.passwordlogin)
+        emailv=findViewById(R.id.loginid)
+        passwordv=findViewById(R.id.passwordlogin)
         progressBar=findViewById(R.id.progressbar)
-        val emails:Boolean=emailcheck(email)
-        val passwords:Boolean=passwordcheck(password)
+
 
         btnlogin.setOnClickListener {
+            val emails:Boolean=emailcheck(emailv)
+            val passwords:Boolean=passwordcheck(passwordv)
 
            if(emails and passwords) {
+
                 signinuser()
             }
         }
@@ -119,6 +121,7 @@ class Loginpage : AppCompatActivity() {
                 password.error = it
             }
             .addSuccessCallback {
+                pcheck=true
             }
             .check()
         return pcheck
@@ -146,22 +149,22 @@ class Loginpage : AppCompatActivity() {
     }
 
 
-//    fun btnclick(view: View){
-//       val btnlogin:Button?=findViewById(R.id.btnlogin)
-//        val btnsignup:Button?=findViewById(R.id.btnsignup)
-//        val email:TextView?=findViewById(R.id.loginid)
-//        val progressBar:SpinKitView=findViewById(R.id.progressbar)
-//        val password:TextView?=findViewById(R.id.password)
-//            val btnid=view as Button
-//                if(btnid.id == btnsignup!!.id)
-//                {
-//                    progressBar.visibility=View.VISIBLE
-//                    handler= Handler()
-//                    handler.postDelayed({
-//                    var intent=Intent(applicationContext, Register::class.java)
-//                    startActivity(intent)//intent for sign up
-//                    },3000) }
-//    }
+    fun btnclick(view: View){
+       val btnlogin:Button?=findViewById(R.id.btnlogin)
+        val btnsignup:Button?=findViewById(R.id.btnsignup)
+        val email:TextView?=findViewById(R.id.loginid)
+        val progressBar:SpinKitView=findViewById(R.id.progressbar)
+        val password:TextView?=findViewById(R.id.password)
+            val btnid=view as Button
+                if(btnid.id == btnsignup!!.id)
+                {
+                    progressBar.visibility=View.VISIBLE
+                    handler= Handler()
+                    handler.postDelayed({
+                    var intent=Intent(applicationContext, Register::class.java)
+                    startActivity(intent)//intent for sign up
+                    },3000) }
+    }
 
 }
 
