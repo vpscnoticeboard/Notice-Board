@@ -234,7 +234,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                                    startActivity(intent)
                                                    finish()
                                                },1000)
-
+                                               FirebaseAuth.getInstance().signOut()
                                            }
                                            else
                                            {
