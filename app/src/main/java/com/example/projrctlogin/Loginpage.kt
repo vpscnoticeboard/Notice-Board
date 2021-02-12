@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.CollapsibleActionView
 import android.view.View
 import android.view.WindowManager
@@ -30,29 +31,64 @@ class Loginpage : AppCompatActivity() {
     lateinit var passwordv: TextView
     lateinit var handler: Handler
     lateinit var progressBar : SpinKitView
+    lateinit var btnlogin:Button
+    lateinit var btnsignup:Button
+    lateinit var forgatpass:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_loginpage)
-
+        btnlogin=findViewById(R.id.btnlogin)
+         btnsignup=findViewById(R.id.btnsignup)
         emailv=findViewById(R.id.loginid)
         passwordv=findViewById(R.id.passwordlogin)
         progressBar=findViewById(R.id.progressbar)
+        forgatpass=findViewById(R.id.forgatpass)
 
 
         btnlogin.setOnClickListener {
             val emails:Boolean=emailcheck(emailv)
             val passwords:Boolean=passwordcheck(passwordv)
-
-           if(emails and passwords) {
-
+            if (emails and passwords) {
+                progressBar.visibility=View.VISIBLE
                 signinuser()
             }
         }
 
+        btnsignup.setOnClickListener {
+            progressBar.visibility=View.VISIBLE
+            val intent=Intent(applicationContext, Register::class.java)
+            startActivity(intent)//intent for sign up
+        }
+
+
     }
+
+
+    /*fun btnclick(view: View){
+//        val emails:Boolean=emailcheck(emailv)
+//        val passwords:Boolean=passwordcheck(passwordv)
+
+        val btnid=view as Button
+//            if(btnid.id == btnlogin.id) {
+//
+//                    if (emails and passwords) {
+//                        progressBar.visibility=View.VISIBLE
+//                        signinuser()
+//                    }
+//            }
+        if(btnid.id == btnsignup.id)
+        {
+            progressBar.visibility=View.VISIBLE
+           // handler= Handler()
+            //handler.postDelayed({
+                val intent=Intent(applicationContext, Register::class.java)
+                startActivity(intent)//intent for sign up
+           // },3000)
+        }
+    }*/
 
     private fun signinuser() {
 
@@ -80,9 +116,15 @@ class Loginpage : AppCompatActivity() {
                 }
                 else {
                     val message=task.exception.toString()
-                    Toast.makeText(this,"Error : $message",Toast.LENGTH_SHORT).show()
-                    FirebaseAuth.getInstance().signOut()
+                    Log.d(message,message)
+                    Toast.makeText(this,"Error : $message",Toast.LENGTH_LONG).show()
+                     handler= Handler()
+                    handler.postDelayed({
+                        //Toast.makeText(this,"PLEASE SIGN_UP FIRST",Toast.LENGTH_LONG).show()
+                        FirebaseAuth.getInstance().signOut()
                     ProgressDialog.dismiss()
+                    forgatpass.visibility=View.VISIBLE
+                    },5000)
                     progressbar.visibility=View.INVISIBLE
                 }
             }
@@ -90,43 +132,7 @@ class Loginpage : AppCompatActivity() {
     }
 
 
-    fun emailcheck(email: TextView): Boolean {
-        var emailcheck: Boolean = false
-        email.validator()
-            .nonEmpty()
-            .validEmail()
-            .addErrorCallback {
-                // Invalid email
-                email.error = it
-            }
-            .addSuccessCallback {
-                // call Login webservice here or anything else for success usecase
-                emailcheck = true
-            }
-            .check()
-        return emailcheck
-    }
 
-
-    fun passwordcheck(password: TextView): Boolean {
-        var pcheck: Boolean = false
-        password.validator()
-            .nonEmpty()
-            .minLength(8)
-            .atleastOneUpperCase()
-            .atleastOneSpecialCharacters()
-            .atleastOneNumber()
-            .addErrorCallback {
-                // Invalid password
-                password.error = it
-            }
-            .addSuccessCallback {
-                pcheck=true
-            }
-            .check()
-        return pcheck
-
-    }
 
 
     override fun onStart() {
@@ -149,23 +155,53 @@ class Loginpage : AppCompatActivity() {
     }
 
 
-    fun btnclick(view: View){
-       val btnlogin:Button?=findViewById(R.id.btnlogin)
-        val btnsignup:Button?=findViewById(R.id.btnsignup)
-        val email:TextView?=findViewById(R.id.loginid)
-        val progressBar:SpinKitView=findViewById(R.id.progressbar)
-        val password:TextView?=findViewById(R.id.password)
-            val btnid=view as Button
-                if(btnid.id == btnsignup!!.id)
-                {
-                    progressBar.visibility=View.VISIBLE
-                    handler= Handler()
-                    handler.postDelayed({
-                    var intent=Intent(applicationContext, Register::class.java)
-                    startActivity(intent)//intent for sign up
-                    },3000) }
+
+//e-mail check validation
+    fun emailcheck(email: TextView): Boolean {
+        var emailcheck: Boolean = false
+        email.validator()
+            .nonEmpty()
+            .validEmail()
+            .addErrorCallback {
+                // Invalid email
+                email.error = it
+            }
+            .addSuccessCallback {
+                // call Login webservice here or anything else for success usecase
+                emailcheck = true
+            }
+            .check()
+        return emailcheck
     }
 
+//password check validation
+    fun passwordcheck(password: TextView): Boolean {
+        var pcheck: Boolean = false
+        password.validator()
+            .nonEmpty()
+            .minLength(8)
+            .atleastOneUpperCase()
+            .atleastOneSpecialCharacters()
+            .atleastOneNumber()
+            .addErrorCallback {
+                // Invalid password
+                password.error = it
+            }
+            .addSuccessCallback {
+                pcheck=true
+            }
+            .check()
+        return pcheck
+
+    }
+
+    fun Resetpass(view: View) {
+        progressbar.visibility=View.VISIBLE
+        val intent = Intent(applicationContext, ResetPassword::class.java)
+        startActivity(intent)
+        finish()
+
+    }
 }
 
 

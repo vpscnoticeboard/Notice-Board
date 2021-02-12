@@ -12,23 +12,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Mobileverify">
-
-        </activity>
-        <activity android:name=".Mobileotp" />
-        <activity android:name=".Splash_screen">
+        <activity android:name=".ResetPassword"
+            android:theme="@style/actionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Mobileverify">
+
+        </activity>
+        <activity android:name=".Mobileotp" />
+        <activity android:name=".Splash_screen">
+
+        </activity>
         <activity
             android:name=".Register"
             android:theme="@style/actionbar" />
         <activity
             android:name=".Loginpage"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
+        </activity>
         <activity android:name=".AccountSettingActivity2" />
         <activity
             android:name=".MainActivity"

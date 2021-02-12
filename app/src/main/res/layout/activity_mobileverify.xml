@@ -9,6 +9,20 @@
     android:weightSum="2"
     tools:context=".Mobileverify">
 
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressbar"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:SpinKit_Color="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.499" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -30,6 +44,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -66,12 +81,12 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
+                android:autofillHints=""
                 android:background="@drawable/edittext_bg"
                 android:enabled="false"
                 android:paddingLeft="10dp"
                 android:text="+91"
-                android:textColor="#1F1F1F"
-                android:autofillHints="" />
+                android:textColor="#1F1F1F" />
 
             <EditText
                 android:id="@+id/phoneNumber"
@@ -79,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:inputType="phone"
+                android:maxLength="10"
                 android:paddingLeft="10dp"
                 android:textColor="#1F1F1F" />
         </LinearLayout>

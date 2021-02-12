@@ -130,7 +130,6 @@
             style="@style/login_button"
             android:layout_marginTop="32dp"
             android:background="@drawable/btn_presto_back"
-            android:onClick="btnclick"
             android:text="@string/loginbtntxt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +140,6 @@
             style="@style/login_button"
             android:layout_marginTop="32dp"
             android:background="@drawable/btn_blue_back"
-            android:onClick="btnclick"
             android:text="@string/signupbtntxt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.516"
@@ -151,23 +149,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="32dp"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnsignup">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/forgatpass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/domine_bold"
+                android:onClick="Resetpass"
                 android:text="@string/forgot_password"
-                android:textAlignment="center"
+                android:textAlignment="textEnd"
                 android:textAllCaps="true"
                 android:textColor="@color/colorwhite"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

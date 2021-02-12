@@ -4,6 +4,7 @@ import android.content.Intent
 import android.icu.util.TimeUnit
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -18,6 +19,7 @@ class Mobileverify : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var storedVerificationId:String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
+    lateinit var progressbar:com.github.ybq.android.spinkit.SpinKitView
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     lateinit var mobileno: EditText
     lateinit var getotp: Button
@@ -30,13 +32,14 @@ class Mobileverify : AppCompatActivity() {
         val mobile = bundle!!.getString("mobile")
         mobileno = findViewById(R.id.phoneNumber)
         getotp = findViewById(R.id.otpBtn)
+        progressbar=findViewById(R.id.progressbar)
         mobileno.setText(mobile)
 
 
         getotp.setOnClickListener {
 
-
-              if(mobilecheck(mobileno))
+            progressbar.visibility=View.VISIBLE
+              if(mobilecheck(mobileno) )
               {
 
                   sentotp()
@@ -53,6 +56,7 @@ class Mobileverify : AppCompatActivity() {
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
+                progressbar.visibility=View.INVISIBLE
                mobileno.setError("PROBLEM TO VERIFY ::MAKE SURE NUMBER IS RIGHT")
                 Toast.makeText(applicationContext, "Failed", Toast.LENGTH_LONG).show()
             }
@@ -97,15 +101,25 @@ class Mobileverify : AppCompatActivity() {
     //FUNCTION CHECK FOR MOBILENUMBER
     fun mobilecheck(mobile: TextView): Boolean {
         var mobilecheck: Boolean = false
-        mobile.validator()
-            .validNumber()
-            .nonEmpty()
-            .addErrorCallback { mobile.setError(it)}
-            .addSuccessCallback {
-                mobilecheck = true
+        val mlength:String=mobile.text.toString()
+        if (mlength.length==10) {
+            mobile.validator()
+                .validNumber()
+                .nonEmpty()
+                .addErrorCallback { mobile.setError(it)
+                    progressbar.visibility=View.INVISIBLE
+                }
+                .addSuccessCallback {
+                    mobilecheck = true
 
-            }
-            .check()
+                }
+                .check()
+        }
+        else
+        {
+            progressbar.visibility=View.INVISIBLE
+            mobile.setError("Enter valid mobile")
+        }
         return mobilecheck
     }
 
