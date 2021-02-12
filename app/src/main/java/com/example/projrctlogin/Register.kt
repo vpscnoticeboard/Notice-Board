@@ -183,6 +183,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             {
                 gender="Female"
             }
+
             val dateofbirth=dob.text.toString()
             val typeofaccount=typebar.selectedItem.toString()
             val stream=streambar.selectedItem.toString()
@@ -217,7 +218,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                    usermap["typeofaccount"]=typeofaccount
                                    usermap["stream"]=stream
                                    usermap["mobileno"]=mobileno
-                                   usermap["password"]=currentuserid
+                                   usermap["password"]=password
                                    usermap["image"]="gs://noticeboard-c45eb.appspot.com/Default Image/default_profile_logo.jpg"
 
                                    useref.child(currentuserid).setValue(usermap)

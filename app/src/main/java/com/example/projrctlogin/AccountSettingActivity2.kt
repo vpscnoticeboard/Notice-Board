@@ -1,12 +1,14 @@
 package com.example.projrctlogin
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_account_setting2.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -44,6 +46,13 @@ class AccountSettingActivity2 : AppCompatActivity() {
             catch (e:Exception){
 
             }
+        }
+
+        logout_account_btn.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(applicationContext, Loginpage::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }
