@@ -22,7 +22,7 @@ class Mobileverify : AppCompatActivity() {
     lateinit var storedVerificationId:String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
-    lateinit var mobileno: TextView
+    lateinit var mobileno: EditText
     lateinit var getotp: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +39,11 @@ class Mobileverify : AppCompatActivity() {
         getotp.setOnClickListener {
 
 
-              mobilecheck(mobileno)
+              if(mobilecheck(mobileno))
+              {
+
+                  sentotp()
+              }
 
 
         }
@@ -76,7 +80,7 @@ class Mobileverify : AppCompatActivity() {
     private fun sentotp() {
         //val mobileNumber=findViewById<EditText>(R.id.phoneNumber)
         var number=mobileno.text.toString().trim()
-
+        Log.d("number",number)
         if(!number.isEmpty()){
             number="+91"+number
             sendVerificationcode (number)
@@ -102,7 +106,7 @@ class Mobileverify : AppCompatActivity() {
             .addErrorCallback { mobile.setError(it)}
             .addSuccessCallback {
                 mobilecheck = true
-                sentotp()
+
             }
             .check()
         return mobilecheck
