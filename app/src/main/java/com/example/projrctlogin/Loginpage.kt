@@ -15,8 +15,10 @@ import com.example.projrctlogin.MainActivity
 import com.example.projrctlogin.Register
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_loginpage.*
 import kotlinx.android.synthetic.main.activity_loginpage.view.*
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.progressbar
 
 class Loginpage : AppCompatActivity() {
 
@@ -28,19 +30,20 @@ class Loginpage : AppCompatActivity() {
         setContentView(R.layout.activity_loginpage)
 
 
-
     }
+
+
     override fun onStart() {
         super.onStart()
         progressbar.visibility=View.INVISIBLE
 
         //for checking that current user is login or not
-//        if (FirebaseAuth.getInstance().currentUser !=null)
-//        {
-//            val intent = Intent(applicationContext, MainActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
+        if (FirebaseAuth.getInstance().currentUser !=null)
+        {
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
     }
 

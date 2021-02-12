@@ -178,6 +178,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             {
                 gender="Female"
             }
+
             val dateofbirth=dob.text.toString()
             val typeofaccount=typebar.selectedItem.toString()
             val stream=streambar.selectedItem.toString()

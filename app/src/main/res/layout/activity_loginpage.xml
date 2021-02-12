@@ -103,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/loginid" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/passwordlogin"
             style="@style/login_edit_text"
             android:layout_marginTop="17dp"
             android:autofillHints=""
@@ -123,7 +123,7 @@
             android:background="@color/colorwhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordlogin" />
 
         <Button
             android:id="@+id/btnlogin"
