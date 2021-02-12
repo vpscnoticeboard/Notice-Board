@@ -4,6 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_pink_blue"
     tools:context=".Mobileotp">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="70dp"
+            android:paddingBottom="40dp"
+            android:src="@drawable/ic_verify" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom|center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:text="ENTER OTP"
+            android:textColor="@color/colorwhite"
+            android:textSize="30sp" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/id_otp"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:cursorVisible="true"
+            android:drawablePadding="2dp"
+            android:inputType="number"
+            android:itemBackground="@drawable/otpback"
+            android:textColor="#1F1F1F"
+            app:hideLineWhenFilled="true"
+            app:itemCount="6"
+            app:itemRadius="5dp"
+            app:lineColor="#2196F3" />
+
+        <Button
+            android:id="@+id/verifyBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:background="@drawable/btn_presto_back"
+            android:fontFamily="@font/montserrat_bold"
+            android:text=" VERIFY"
+            android:textAllCaps="false"
+            android:textColor="@color/colorwhite"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

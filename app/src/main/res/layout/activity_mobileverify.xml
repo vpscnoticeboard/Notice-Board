@@ -4,40 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_pink_blue"
+    android:orientation="vertical"
+    android:weightSum="2"
     tools:context=".Mobileverify">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:text="check mobile ! correct?"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/mobileno"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        android:ems="10"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/otpbtn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="212dp"
-        android:text="OTP"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="70dp"
+            android:paddingBottom="40dp"
+            android:src="@drawable/ic_login"
+            android:contentDescription="TODO" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:gravity="bottom|center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingStart="40dp"
+            android:text="Verify Mobile"
+            android:textColor="@color/colorwhite"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="40dp"
+            android:paddingTop="10dp"
+            android:paddingRight="40dp"
+            android:paddingBottom="10dp">
+
+            <EditText
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/edittext_bg"
+                android:enabled="false"
+                android:paddingLeft="10dp"
+                android:text="+91"
+                android:textColor="#1F1F1F"
+                android:autofillHints="" />
+
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:inputType="phone"
+                android:paddingLeft="10dp"
+                android:textColor="#1F1F1F" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/otpBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:background="@drawable/btn_presto_back"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="GET_OTP"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

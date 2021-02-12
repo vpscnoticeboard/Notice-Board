@@ -4,6 +4,7 @@ import com.example.projrctlogin.R
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.CollapsibleActionView
 import android.view.View
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_register.progressbar
 
 class Loginpage : AppCompatActivity() {
-
+    lateinit var handler: Handler
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWindow().setFlags(
@@ -74,16 +75,20 @@ class Loginpage : AppCompatActivity() {
                             return
                         }
                     progressBar.visibility=View.VISIBLE
+                    handler = Handler()
+                    handler.postDelayed({
                     var intent=Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
                     finish()
-                }
+                },2000)}
                 if(btnid.id == btnsignup!!.id)
                 {
                     progressBar.visibility=View.VISIBLE
+                    handler= Handler()
+                    handler.postDelayed({
                     var intent=Intent(applicationContext, Register::class.java)
                     startActivity(intent)//intent for sign up
-                }
+                    },3000) }
     }
 
 }

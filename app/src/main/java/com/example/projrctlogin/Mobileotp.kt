@@ -1,46 +1,61 @@
 package com.example.projrctlogin
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.firebase.FirebaseException
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import java.util.concurrent.TimeUnit
 
 class Mobileotp : AppCompatActivity() {
-    lateinit var mAuth: FirebaseAuth
-    lateinit var mCallbacks:PhoneAuthProvider.OnVerificationStateChangedCallbacks
-
+    lateinit var auth: FirebaseAuth
+    lateinit var otpGiven:com.chaos.view.PinView
+    lateinit var verify:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobileotp)
-        mAuth = FirebaseAuth.getInstance();
-        val bundle: Bundle? = intent.extras
-        val phoneNumber = bundle!!.getString("mobile")
-        verify(phoneNumber.toString())
-    }
-    private fun verify(phonoNumber:String){
-        verificationCallbacks()
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            phonoNumber,60,TimeUnit.SECONDS,this,mCallbacks)
 
-    }
-    private fun verificationCallbacks(){
-        mCallbacks=object :PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
-            override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                TODO("Not yet implemented")
-            }
+        auth=FirebaseAuth.getInstance()
 
-            override fun onVerificationFailed(p0: FirebaseException) {
-                TODO("Not yet implemented")
-            }
+        val storedVerificationId=intent.getStringExtra("storedVerificationId")
 
-            override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
-                super.onCodeSent(p0, p1)
+         verify=findViewById(R.id.verifyBtn)
+         otpGiven=findViewById(R.id.id_otp)
+
+
+        verify.setOnClickListener{
+            var otp=otpGiven.text.toString().trim()
+            if(!otp.isEmpty()){
+                val credential : PhoneAuthCredential = PhoneAuthProvider.getCredential(
+                    storedVerificationId.toString(), otp)
+                signInWithPhoneAuthCredential(credential)
+            }else{
+                Toast.makeText(this,"Enter OTP", Toast.LENGTH_LONG).show()
             }
         }
 
+    }
+    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    startActivity(Intent(applicationContext, Loginpage::class.java))
+                    finish()
+// ...
+                } else {
+// Sign in failed, display a message and update the UI
+                    Toast.makeText(this,"Make sure sim in the same Mobile Phone", Toast.LENGTH_SHORT).show()
+                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
+// The verification code entered was invalid
+                        otpGiven.setError("Invalid OTP")
+                        Toast.makeText(this,"Invalid OTP", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
     }
 }
