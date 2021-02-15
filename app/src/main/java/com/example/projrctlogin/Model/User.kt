@@ -3,96 +3,93 @@ package com.example.projrctlogin.Model
 class User {
     private var fname : String = ""
     private var lname : String = ""
-    private var email : String = ""
-    private var typeofaccount : String = ""
     private var stream : String = ""
+    private var typeofaccount : String = ""
+    private var email : String = ""
     private var image : String = ""
-    private var dateofbirth : String = ""
-    private var gender : String = ""
-    private var mobileno : String = ""
-    private var password : String = ""
     private var uid : String = ""
 
+    constructor(){
 
-    constructor()
-
-    constructor(fname : String,lname : String,email : String,typeofaccount : String,stream : String,image : String)
-    {
-        this.fname=fname
-        this.lname=lname
-        this.email=email
-        this.typeofaccount=typeofaccount
-        this.stream=stream
-        this.image=image
     }
 
-    fun getUsername () : String
+    constructor(fname: String, lname: String, stream: String, typeofaccount: String, email: String, image: String, uid: String)
     {
-        return this.fname
+        this.fname = fname
+        this.lname = lname
+        this.stream = stream
+        this.typeofaccount = typeofaccount
+        this.email = email
+        this.image = image
     }
 
-    fun setUsername (fname : String)
+    fun getFname(): String
     {
-        this.fname=fname
+        return fname
+    }
+    fun setFname(fname: String)
+    {
+        this.fname = fname
     }
 
-
-
-    fun getLastname () : String
+    fun getLname(): String
     {
         return lname
     }
-
-    fun setLastname (lname : String)
+    fun setLname(lname: String)
     {
-        this.lname=lname
+        this.lname = lname
     }
 
 
-
-    fun getEmailame () : String
-    {
-        return email
-    }
-
-    fun setEmailname (email : String)
-    {
-        this.email=email
-    }
-
-
-
-    fun getToaname () : String
-    {
-        return typeofaccount
-    }
-
-    fun setToaname (typeofaccount : String)
-    {
-        this.typeofaccount=typeofaccount
-    }
-
-
-
-    fun getStreamname () : String
+    fun getStream(): String
     {
         return stream
     }
-
-    fun setStreamname (stream : String)
+    fun setStream(stream: String)
     {
-        this.stream=stream
+        this.stream = stream
     }
 
 
-    fun getImage () : String
+    fun getTypeofaccount(): String
     {
-        return image
+        return typeofaccount
+    }
+    fun setTypeofaccount(typeofaccount: String)
+    {
+        this.typeofaccount = typeofaccount
     }
 
-    fun setImage (image : String)
+
+    fun getEmail(): String
     {
-        this.image=image
+        return fname
     }
+    fun setEmail(email: String)
+    {
+        this.email = email
+    }
+
+
+    fun getImage(): String
+    {
+        return fname
+    }
+    fun setImage(image: String)
+    {
+        this.image = image
+    }
+
+
+    fun getUid(): String
+    {
+        return uid
+    }
+    fun setUid(uid: String)
+    {
+        this.uid = uid
+    }
+
 
 }

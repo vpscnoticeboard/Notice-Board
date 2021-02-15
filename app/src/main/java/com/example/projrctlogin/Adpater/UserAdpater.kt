@@ -10,18 +10,16 @@ import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
-import com.google.android.gms.dynamic.IFragmentWrapper
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.user_item_layout.view.*
-import java.math.MathContext
 
-class UserAdpater (private var mContext: Context,
-                   private  var mUser : List<User>,
-                   private var isFragment: Boolean = false) : RecyclerView.Adapter<UserAdpater.ViewHolder>()
+class UserAdpater (private var mContext : Context,
+                    private var mUser : List<User>,
+                    private var isFragment: Boolean = false) : RecyclerView.Adapter<UserAdpater.ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdpater.ViewHolder {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.user_item_layout, parent,false)
+        val view =LayoutInflater.from(mContext).inflate(R.layout.user_item_layout, parent,false)
+
         return UserAdpater.ViewHolder(view)
     }
 
@@ -33,22 +31,22 @@ class UserAdpater (private var mContext: Context,
 
         val user = mUser[position]
 
-        holder.usernametextview.text = user.getUsername()
-        holder.lastnametextview.text = user.getLastname()
-        holder.emailtextview.text = user.getEmailame()
-        holder.streamtextview.text = user.getStreamname()
-        holder.typeofacctextview.text = user.getToaname()
-        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.userprofileimage)
+        holder.fnameTextView.text = user.getFname()
+        holder.lnameTextView.text = user.getLname()
+        holder.emailTextView.text = user.getEmail()
+        holder.streamTextView.text = user.getStream()
+        holder.typeofaccountTextView.text = user.getTypeofaccount()
+        Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.imageTextView )
+
     }
 
-    class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ViewHolder (@NonNull itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-        var usernametextview : TextView = itemView.findViewById(R.id.user_name_search)
-        var lastnametextview : TextView = itemView.findViewById(R.id.user_last_name_search)
-        var emailtextview : TextView = itemView.findViewById(R.id.user_email_search)
-        var streamtextview : TextView = itemView.findViewById(R.id.user_stream_search)
-        var typeofacctextview : TextView = itemView.findViewById(R.id.user_typeofaccount_search)
-        var userprofileimage : CircleImageView = itemView.findViewById(R.id.user_name_search)
+        var fnameTextView: TextView = itemView.findViewById(R.id.user_name_search)
+        var lnameTextView: TextView = itemView.findViewById(R.id.user_last_name_search)
+        var emailTextView: TextView = itemView.findViewById(R.id.user_email_search)
+        var streamTextView: TextView = itemView.findViewById(R.id.user_stream_search)
+        var typeofaccountTextView: TextView = itemView.findViewById(R.id.user_typeofaccount_search)
+        var imageTextView: CircleImageView = itemView.findViewById(R.id.user_profile_image_search)
     }
-
 }
