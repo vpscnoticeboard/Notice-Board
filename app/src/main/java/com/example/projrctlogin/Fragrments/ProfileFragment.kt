@@ -1,4 +1,4 @@
-package com.example.noticeboardclone.Fragrments
+package com.example.projrctlogin.Fragrments
 
 import android.content.Intent
 import android.os.Bundle

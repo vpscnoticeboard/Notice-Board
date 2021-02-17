@@ -73,6 +73,8 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     //for enter otp
     implementation 'com.chaos.view:pinview:1.4.3'
+    //for displaying image retrived from the firebase database
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 }
 apply plugin: 'com.google.gms.google-services'

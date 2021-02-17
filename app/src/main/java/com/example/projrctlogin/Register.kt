@@ -112,7 +112,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             checkPermission()
         })
 
-        //sign_up button on click methode
+        //sign_up button on click method
         signup_btnclik.setOnClickListener {
 
            val fname:Boolean= namecheck(fname)
