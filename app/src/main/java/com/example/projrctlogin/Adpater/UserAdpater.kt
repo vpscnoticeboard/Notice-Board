@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.projrctlogin.Fragrments.ProfileFragment
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
 import com.squareup.picasso.Picasso
@@ -37,6 +39,14 @@ class UserAdpater (private var mContext : Context,
         holder.streamTextView.text = user.getStream()
         holder.typeofaccountTextView.text = user.getTypeofaccount()
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.imageTextView )
+
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+            pref.putString("profileId", user.getUid())
+            pref.apply()
+            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragrment_container, ProfileFragment()).commit()
+        })
 
     }
 
