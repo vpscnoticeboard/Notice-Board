@@ -21,6 +21,7 @@ class User {
         this.typeofaccount = typeofaccount
         this.email = email
         this.image = image
+        this.uid = uid
     }
 
     fun getFname(): String
@@ -64,7 +65,7 @@ class User {
 
     fun getEmail(): String
     {
-        return fname
+        return email
     }
     fun setEmail(email: String)
     {
