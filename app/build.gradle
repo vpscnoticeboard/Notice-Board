@@ -76,5 +76,6 @@ dependencies {
     //for displaying image retrived from the firebase database
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+
 }
 apply plugin: 'com.google.gms.google-services'
