@@ -1,5 +1,6 @@
 package com.example.projrctlogin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
@@ -56,6 +57,8 @@ class ResetPassword : AppCompatActivity() {
                     progressbar.visibility = View.GONE
                     if (task.isSuccessful) {
                         Toast.makeText(this,"CHECK YOUR E-MAIL FOR RESET PASSWORD LINK",Toast.LENGTH_LONG).show()
+                        startActivity(Intent(applicationContext, Loginpage::class.java))
+                        finish()
                     } else {
                         progressbar.visibility = View.INVISIBLE
                         Toast.makeText(this,task.exception?.message!!,Toast.LENGTH_LONG).show()
