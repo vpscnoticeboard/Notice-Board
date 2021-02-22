@@ -1,5 +1,6 @@
 package com.example.projrctlogin
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_add -> {
-                moveToFragment(AddFragment())
+               startActivity(Intent(this@MainActivity, AddPostActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_profile -> {

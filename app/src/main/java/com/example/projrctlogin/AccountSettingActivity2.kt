@@ -6,11 +6,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.projrctlogin.Model.User
+import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -41,6 +43,8 @@ class AccountSettingActivity2 : AppCompatActivity() {
     private var imageuri: Uri?= null
     private var storageProfilePicref: StorageReference? = null
 
+    lateinit var progressBar : SpinKitView
+
 
     var formate = SimpleDateFormat("dd MMM, YYYY",Locale.US)
     //variable for calender button
@@ -55,6 +59,7 @@ class AccountSettingActivity2 : AppCompatActivity() {
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         storageProfilePicref = FirebaseStorage.getInstance().reference.child("profile pictures")
+        progressBar=findViewById(R.id.progressbar)
 
 
 
@@ -128,18 +133,21 @@ class AccountSettingActivity2 : AppCompatActivity() {
     }
 
     private fun uploadImageAndUpdateInfo() {
+        progressBar.visibility= View.VISIBLE
 
         when
         {
             else ->{
-                val fileref = storageProfilePicref!!.child(firebaseUser!!.uid + "jpg")
+                val fileref = storageProfilePicref!!.child(firebaseUser!!.uid + ".jpg")
 
                 val uploadTask: StorageTask<*>
                 uploadTask = fileref.putFile(imageuri!!)
+
                 uploadTask.continueWithTask(Continuation <UploadTask.TaskSnapshot, Task<Uri>> { task ->
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             throw it
+                            progressBar.visibility= View.INVISIBLE
                         }
 
                     }
@@ -165,13 +173,14 @@ class AccountSettingActivity2 : AppCompatActivity() {
                         val intent = Intent(applicationContext, MainActivity::class.java)
                         startActivity(intent)
                         finish()
-
+                    }
+                    else
+                    {
+                        progressBar.visibility= View.INVISIBLE
                     }
                 }
                 ) }
             }
-
-
 
     }
 
@@ -232,7 +241,7 @@ class AccountSettingActivity2 : AppCompatActivity() {
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(profile_image_view_profile_frag)
                     first_name_profile_frag.setText(user.getFname())
                     last_name_profile_frag.setText(user.getLname())
-                    calender_profile_frag.text = user.getDob()
+                    calender_profile_frag.setText(user.getDob())
                 }
             }
 

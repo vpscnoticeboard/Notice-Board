@@ -1,5 +1,7 @@
 package com.example.projrctlogin.Model
 
+import java.util.*
+
 class User {
     private var fname : String = ""
     private var lname : String = ""
@@ -8,7 +10,7 @@ class User {
     private var email : String = ""
     private var image : String = ""
     private var uid : String = ""
-    private var dateofbirth : String =""
+    private var dateofbirth : String = ""
 
     constructor(){
 
@@ -77,7 +79,7 @@ class User {
 
     fun getImage(): String
     {
-        return fname
+        return image
     }
     fun setImage(image: String)
     {
