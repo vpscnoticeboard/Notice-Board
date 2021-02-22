@@ -125,10 +125,8 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                progressbar.visibility=View.VISIBLE
                //calling function for creating user
                createaccount()
-
            }
-
-           }
+        }
 
 
 
@@ -227,14 +225,16 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                            {
                                                 ProgressDialog.dismiss()
                                                Toast.makeText(this,"Account Has Been Created...",Toast.LENGTH_SHORT).show()
+                                               //FirebaseAuth.getInstance().signOut()
                                                handler = Handler()
                                                handler.postDelayed({
                                                    val intent = Intent(applicationContext, Mobileverify::class.java)
+                                                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                                                    intent.putExtra("mobile",mobile.text.toString())
                                                    startActivity(intent)
                                                    finish()
                                                },1000)
-                                               FirebaseAuth.getInstance().signOut()
+                                               //FirebaseAuth.getInstance().signOut()
                                            }
                                            else
                                            {
@@ -276,8 +276,6 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
             .check()
         return name_check
-
-
     }
 
     //function for check password
@@ -418,11 +416,11 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
 
-    // sign_up btn click coding
-    fun btnsignupclick(view: View) {
-
-        var intent=Intent(applicationContext, MainActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
+//    // sign_up btn click coding
+//    fun btnsignupclick(view: View) {
+//
+//        var intent=Intent(applicationContext, MainActivity::class.java)
+//        startActivity(intent)
+//        finish()
+//    }
 }//========class complete====================

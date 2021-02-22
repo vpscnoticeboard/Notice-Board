@@ -51,6 +51,7 @@ class ProfileFragment : Fragment() {
         editp=view.findViewById(R.id.edit_account_setting_btn)
 
             firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
             val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
 
             if (pref !=null)
@@ -103,16 +104,13 @@ class ProfileFragment : Fragment() {
         userRef.addValueEventListener(object : ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
-//                if (context != null)
-//                {
-//                    return
-//                }
                 if (snapshot.exists())
                 {
                     val user = snapshot.getValue<User>(User::class.java)
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(view?.pro_image_profile_frag)
                     view?.profile_fragrement_username?.text = user!!.getEmail()
                     view?.profile_fragrement_name?.text = user!!.getFname()
+                    view?.profile_fragrement_stream?.text = user!!.getStream()
                     view?.profile_fragrement_typeofaccount?.text = user!!.getTypeofaccount()
                 }
             }

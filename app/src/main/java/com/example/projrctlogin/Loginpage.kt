@@ -142,7 +142,8 @@ class Loginpage : AppCompatActivity() {
         //for checking that current user is login or not
         if (FirebaseAuth.getInstance().currentUser !=null)
         {
-            val intent = Intent(applicationContext, MainActivity::class.java)
+            val intent = Intent(this@Loginpage, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
         }

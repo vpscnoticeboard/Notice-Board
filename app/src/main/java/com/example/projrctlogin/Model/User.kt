@@ -8,12 +8,13 @@ class User {
     private var email : String = ""
     private var image : String = ""
     private var uid : String = ""
+    private var dateofbirth : String =""
 
     constructor(){
 
     }
 
-    constructor(fname: String, lname: String, stream: String, typeofaccount: String, email: String, image: String, uid: String)
+    constructor(fname: String, lname: String, stream: String, typeofaccount: String, email: String, image: String, uid: String, dateofbirth: String)
     {
         this.fname = fname
         this.lname = lname
@@ -22,6 +23,7 @@ class User {
         this.email = email
         this.image = image
         this.uid = uid
+        this.dateofbirth = dateofbirth
     }
 
     fun getFname(): String
@@ -90,6 +92,17 @@ class User {
     fun setUid(uid: String)
     {
         this.uid = uid
+    }
+
+
+
+    fun getDob(): String
+    {
+        return dateofbirth
+    }
+    fun setDob(dateofbirth: String)
+    {
+        this.dateofbirth = dateofbirth
     }
 
 

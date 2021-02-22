@@ -17,7 +17,6 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/btn_presto_back"
         android:fontFamily="@font/open_sans"
-        android:onClick="btnsignupclick"
         android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textColor="@color/colorwhite"

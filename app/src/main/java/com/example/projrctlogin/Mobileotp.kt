@@ -50,7 +50,10 @@ class Mobileotp : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    startActivity(Intent(applicationContext, Loginpage::class.java))
+                    FirebaseAuth.getInstance().signOut()
+                    val intent = Intent(this@Mobileotp, Loginpage::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                     finish()
 // ...
                 } else {
