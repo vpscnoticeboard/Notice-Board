@@ -47,7 +47,7 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         CropImage.activity()
-            .setAspectRatio(2,1)
+            .setAspectRatio(5,5)
             .start(this@AddPostActivity)
 
     }
@@ -69,7 +69,7 @@ class AddPostActivity : AppCompatActivity() {
         {
 
             imageuri ==null -> Toast.makeText(this,"Please select image first",Toast.LENGTH_LONG).show()
-            TextUtils.isEmpty(discription_post.text.toString()) -> Toast.makeText(this,"Discripton Is Empty",Toast.LENGTH_LONG).show()
+            //TextUtils.isEmpty(discription_post.text.toString()) -> Toast.makeText(this,"Discripton Is Empty",Toast.LENGTH_LONG).show()
 
 
             else ->{
