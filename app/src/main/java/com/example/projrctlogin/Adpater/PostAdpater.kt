@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.projrctlogin.CommentsActivity
 import com.example.projrctlogin.MainActivity
 import com.example.projrctlogin.Model.Post
 import com.example.projrctlogin.Model.User
@@ -44,11 +45,11 @@ class PostAdpater(private val mContext : Context,
 
             if (post.getdiscription().equals(""))
             {
-                holder.discription.visibility == View.GONE
+                holder.discription.visibility = View.GONE
             }
             else
             {
-                holder.discription.visibility == View.VISIBLE
+                holder.discription.visibility = View.VISIBLE
                 holder.discription.setText(post.getdiscription())
 
             }
@@ -57,6 +58,7 @@ class PostAdpater(private val mContext : Context,
 
             islikes(post.getpostid(), holder.likeButton)
             numberoflikes(holder.likes, post.getpostid())
+            gettotalcomments(holder.comments, post.getpostid())
 
             holder.likeButton.setOnClickListener {
                 if (holder.likeButton.tag == "like")
@@ -79,6 +81,25 @@ class PostAdpater(private val mContext : Context,
                     mContext.startActivity(intent)
                 }
             }
+
+            holder.commentButton.setOnClickListener {
+
+                val intentcomment = Intent(mContext, CommentsActivity::class.java)
+                intentcomment.putExtra("postid", post.getpostid())
+                intentcomment.putExtra("getpublisher", post.getpublisher())
+                mContext.startActivity(intentcomment)
+
+            }
+
+            holder.comments.setOnClickListener {
+
+                val intentcomment = Intent(mContext, CommentsActivity::class.java)
+                intentcomment.putExtra("postid", post.getpostid())
+                intentcomment.putExtra("getpublisher", post.getpublisher())
+                mContext.startActivity(intentcomment)
+
+            }
+
         }
 
     private fun numberoflikes(likes: TextView, getpostid: String)
@@ -90,7 +111,27 @@ class PostAdpater(private val mContext : Context,
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists())
                 {
-                    likes.text = snapshot.childrenCount.toString() + "likes"
+                    likes.text = snapshot.childrenCount.toString() + " likes"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+
+    private fun gettotalcomments(comments: TextView, getpostid: String)
+    {
+        val commentsref = FirebaseDatabase.getInstance().reference
+            .child("comments").child(getpostid)
+
+        commentsref.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                {
+                    comments.text = "View All " + snapshot.childrenCount.toString() + " Comments"
                 }
             }
 
