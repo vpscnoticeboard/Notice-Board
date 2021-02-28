@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.CommentsActivity
 import com.example.projrctlogin.MainActivity
 import com.example.projrctlogin.Model.Post
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
+import com.example.projrctlogin.LikesActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -23,8 +23,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_account_setting2.*
-import kotlinx.android.synthetic.main.user_item_layout.view.*
 
 class PostAdpater(private val mContext : Context,
                   private val mPost : List<Post>) : RecyclerView.Adapter<PostAdpater.ViewHolder>()
@@ -59,6 +57,14 @@ class PostAdpater(private val mContext : Context,
             islikes(post.getpostid(), holder.likeButton)
             numberoflikes(holder.likes, post.getpostid())
             gettotalcomments(holder.comments, post.getpostid())
+            checkSavedStatus(post.getpostid(), holder.saveButton)
+
+            holder.likes.setOnClickListener {
+                val intent = Intent(mContext, LikesActivity::class.java)
+                intent.putExtra("id", post.getpostid())
+                intent.putExtra("title", "likes")
+                mContext.startActivity(intent)
+            }
 
             holder.likeButton.setOnClickListener {
                 if (holder.likeButton.tag == "like")
@@ -98,6 +104,26 @@ class PostAdpater(private val mContext : Context,
                 intentcomment.putExtra("getpublisher", post.getpublisher())
                 mContext.startActivity(intentcomment)
 
+            }
+
+            holder.saveButton.setOnClickListener {
+               if (holder.saveButton.tag == "save")
+               {
+                   FirebaseDatabase.getInstance().getReference()
+                       .child("saves")
+                       .child(firebaseuser!!.uid)
+                       .child(post.getpostid())
+                       .setValue(true)
+               }
+               else
+               {
+                   FirebaseDatabase.getInstance().getReference()
+                       .child("saves")
+                       .child(firebaseuser!!.uid)
+                       .child(post.getpostid())
+                       .removeValue()
+
+               }
             }
 
         }
@@ -221,4 +247,31 @@ class PostAdpater(private val mContext : Context,
             }
         })
     }
+
+    private fun checkSavedStatus(postid: String, imageView: ImageView)
+    {
+        val saveref = FirebaseDatabase.getInstance().getReference()
+            .child("saves")
+            .child(firebaseuser!!.uid)
+
+        saveref.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.child(postid).exists())
+                {
+                    imageView.setImageResource(R.drawable.save_large_icon)
+                    imageView.tag = "saved"
+                }
+                else
+                {
+                    imageView.setImageResource(R.drawable.save_unfilled_large_icon)
+                    imageView.tag = "save"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
 }

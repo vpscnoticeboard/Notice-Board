@@ -9,7 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.GridLayout
+import android.widget.ImageButton
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.AccountSettingActivity2
+import com.example.projrctlogin.Adpater.MyimagesAdpater
+import com.example.projrctlogin.Model.Post
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +29,12 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 import kotlinx.android.synthetic.main.fragment_profile.view.*
+import java.lang.Integer.reverse
+import java.security.Key
+import java.util.*
+import java.util.Collections.checkedCollection
+import java.util.Collections.reverse
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +50,13 @@ class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser : FirebaseUser
     lateinit var editp : Button
+
+    var postlist: List<Post>? = null
+    var myimagesAdpater: MyimagesAdpater? = null
+
+    var myimagesAdpaterSavedImag: MyimagesAdpater? = null
+    var postlistsaved: List<Post>? = null
+    var mySavesImg: List<String>? = null
 
 
     override fun onCreateView(
@@ -69,32 +89,91 @@ class ProfileFragment : Fragment() {
                editp?.visibility = View.GONE
             }
 
+        //recyclerview for upload Images
+        var recyclerViewuploadimages: RecyclerView
+        recyclerViewuploadimages = view.findViewById(R.id.recycler_upload_pic)
+        recyclerViewuploadimages.setHasFixedSize(true)
+        val linearLayoutManager: LinearLayoutManager = GridLayoutManager(context, 3)
+        recyclerViewuploadimages.layoutManager = linearLayoutManager
+
+        postlist = ArrayList()
+        myimagesAdpater = context?.let { MyimagesAdpater(it, postlist as ArrayList<Post>) }
+        recyclerViewuploadimages.adapter = myimagesAdpater
+
+
+        //recyclerview for saved Images
+        var recyclerViewsaveimages: RecyclerView
+        recyclerViewsaveimages = view.findViewById(R.id.recycler_saved_pic)
+        recyclerViewsaveimages.setHasFixedSize(true)
+        val linearLayoutManager2: LinearLayoutManager = GridLayoutManager(context, 3)
+        recyclerViewsaveimages.layoutManager = linearLayoutManager2
+
+        postlistsaved = ArrayList()
+        myimagesAdpaterSavedImag = context?.let { MyimagesAdpater(it, postlistsaved as ArrayList<Post>) }
+        recyclerViewsaveimages.adapter = myimagesAdpaterSavedImag
+
+        var uploadedimagebtn: ImageButton
+        uploadedimagebtn =view.findViewById(R.id.image_grid_view_btn)
+        uploadedimagebtn.setOnClickListener {
+            recyclerViewsaveimages.visibility = View.GONE
+            recyclerViewuploadimages.visibility = View.VISIBLE
+        }
+
+
+        var savedimagebtn: ImageButton
+        savedimagebtn =view.findViewById(R.id.image_save_btn)
+        savedimagebtn.setOnClickListener {
+            recyclerViewsaveimages.visibility = View.VISIBLE
+            recyclerViewuploadimages.visibility = View.GONE
+            uploadedimagebtn.visibility = View.GONE
+        }
+
+
+
+
         view.edit_account_setting_btn.setOnClickListener {
             startActivity(Intent(context, AccountSettingActivity2::class.java))
         }
         userInfo()
+        myphotos()
+        getTotalNumberOfPosts()
+        mysaves()
 
         return view
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+
+    private fun myphotos()
+    {
+        val photoRef = FirebaseDatabase.getInstance().getReference()
+            .child("posts")
+
+        photoRef.addValueEventListener(object : ValueEventListener{
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                {
+                    (postlist as ArrayList<Post>).clear()
+
+                    for (datasnapshot in snapshot.children)
+                    {
+                        val post = datasnapshot.getValue(Post::class.java)
+                        if (post!!.getpublisher().equals(profileId))
+                        {
+                            (postlist as ArrayList<Post>).add(post)
+                        }
+                        Collections.reverse(postlist)
+                        myimagesAdpater!!.notifyDataSetChanged()
+                    }
                 }
             }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
 
     private fun userInfo()
@@ -140,6 +219,96 @@ class ProfileFragment : Fragment() {
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
+    }
+
+    private fun getTotalNumberOfPosts()
+    {
+        val photoRef = FirebaseDatabase.getInstance().getReference()
+            .child("posts")
+
+        photoRef.addValueEventListener(object : ValueEventListener{
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                if (dataSnapshot.exists())
+                {
+                    var postcounter = 0
+
+                    for (snapshot in dataSnapshot.children)
+                    {
+                        val post = snapshot.getValue(Post::class.java)
+                        if (post!!.getpublisher() == profileId)
+                        {
+                            postcounter++
+                        }
+                    }
+                    profile_fragrement_post_no.text = "Total Posts : " + postcounter
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun mysaves() {
+        mySavesImg = ArrayList()
+
+        val savedRef = FirebaseDatabase.getInstance().getReference()
+            .child("saves")
+            .child(firebaseUser.uid)
+
+        savedRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists())
+                {
+                    for (snapshot in dataSnapshot.children)
+                    {
+                        (mySavesImg as ArrayList<String>).add(snapshot.key!!)
+                    }
+                    readSvaedimagesdata()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+
+    }
+
+    private fun readSvaedimagesdata() {
+        val photoRef = FirebaseDatabase.getInstance().getReference()
+            .child("posts")
+
+
+            photoRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists())
+                    {
+                        (postlistsaved as ArrayList<Post>).clear()
+                        for (snapshot in dataSnapshot.children)
+                        {
+                            val post = snapshot.getValue(Post::class.java)
+
+                            for (key in mySavesImg!!)
+                            {
+                                 if(post!!.getpostid() == key)
+                                 {
+                                     (postlistsaved as ArrayList<Post>).add(post!!)
+                                 }
+                            }
+                            myimagesAdpaterSavedImag!!.notifyDataSetChanged()
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
     }
 
 }

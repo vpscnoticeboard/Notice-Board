@@ -15,9 +15,9 @@ import com.example.projrctlogin.R
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class UserAdpater (private var mContext : Context,
-                    private var mUser : List<User>,
-                    private var isFragment: Boolean = false) : RecyclerView.Adapter<UserAdpater.ViewHolder>()
+class UserAdpater(private var mContext: Context,
+                  private var mUser: ArrayList<User>,
+                  private var isFragment: Boolean = false) : RecyclerView.Adapter<UserAdpater.ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdpater.ViewHolder {
         val view =LayoutInflater.from(mContext).inflate(R.layout.user_item_layout, parent,false)
