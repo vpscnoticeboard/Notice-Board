@@ -1,6 +1,7 @@
 package com.example.projrctlogin.Adpater
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,10 @@ import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.Fragrments.ProfileFragment
+import com.example.projrctlogin.MainActivity
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -41,11 +44,20 @@ class UserAdpater(private var mContext: Context,
         Picasso.get().load(user.getImage()).placeholder(R.drawable.profile).into(holder.imageTextView )
 
         holder.itemView.setOnClickListener(View.OnClickListener {
-            val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-            pref.putString("profileId", user.getUid())
-            pref.apply()
-            (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragrment_container, ProfileFragment()).commit()
+            if (isFragment)
+            {
+                val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                pref.putString("profileId", user.getUid())
+                pref.apply()
+                (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragrment_container, ProfileFragment()).commit()
+            }
+            else
+            {
+                val intent = Intent(mContext, MainActivity::class.java)
+                intent.putExtra("publisherId", user.getUid())
+                mContext.startActivity(intent)
+            }
         })
 
     }
@@ -59,4 +71,5 @@ class UserAdpater(private var mContext: Context,
         var typeofaccountTextView: TextView = itemView.findViewById(R.id.user_typeofaccount_search)
         var imageTextView: CircleImageView = itemView.findViewById(R.id.user_profile_image_search)
     }
+
 }

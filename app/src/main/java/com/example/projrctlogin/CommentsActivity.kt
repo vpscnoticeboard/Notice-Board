@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_account_setting2.*
 import kotlinx.android.synthetic.main.activity_comments.*
+import kotlinx.android.synthetic.main.posts_layout.*
 import org.w3c.dom.Comment
 import java.lang.NullPointerException
 
@@ -80,6 +81,8 @@ class CommentsActivity : AppCompatActivity() {
         commentsMap["publisher"] = firebaseUser!!.uid
 
         commentsRef.push().setValue(commentsMap)
+
+        addNotification()
 
         add_comment!!.text.clear()
     }
@@ -154,6 +157,22 @@ class CommentsActivity : AppCompatActivity() {
 
             }
         })
+
+    }
+
+    private fun addNotification()
+    {
+        val notiref = FirebaseDatabase.getInstance().getReference()
+            .child("notifications")
+            .child(getpublisher!!)
+
+        val notiMap = HashMap<String, Any>()
+        notiMap["userid"] = firebaseUser!!.uid
+        notiMap["text"] = "Commented: " + add_comment!!.text.toString()
+        notiMap["postid"] = postid
+        notiMap["ispost"] = true
+
+        notiref.push().setValue(notiMap)
 
     }
 
