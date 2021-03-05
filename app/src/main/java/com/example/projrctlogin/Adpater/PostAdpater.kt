@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.CommentsActivity
+import com.example.projrctlogin.Fragrments.PostDetailsFragment
+import com.example.projrctlogin.Fragrments.ProfileFragment
 import com.example.projrctlogin.MainActivity
 import com.example.projrctlogin.Model.Post
 import com.example.projrctlogin.Model.User
@@ -59,6 +62,37 @@ class PostAdpater(private val mContext : Context,
             numberoflikes(holder.likes, post.getpostid())
             gettotalcomments(holder.comments, post.getpostid())
             checkSavedStatus(post.getpostid(), holder.saveButton)
+
+            holder.postImage.setOnClickListener {
+                val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                editor.putString("postid", post.getpostid())
+                editor.apply()
+                (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction().replace(R.id.fragrment_container, PostDetailsFragment()).commit()
+            }
+
+            holder.publisher.setOnClickListener {
+
+                val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                editor.putString("profileId", post.getpublisher())
+                editor.apply()
+                (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction().replace(R.id.fragrment_container, ProfileFragment()).commit()
+
+            }
+
+            holder.profileImage.setOnClickListener {
+                val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                editor.putString("profileId", post.getpublisher())
+                editor.apply()
+                (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction().replace(R.id.fragrment_container, ProfileFragment()).commit()
+            }
+
+            holder.postImage.setOnClickListener {
+                val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+                editor.putString("postid", post.getpostid())
+                editor.apply()
+                (mContext as FragmentActivity).getSupportFragmentManager().beginTransaction().replace(R.id.fragrment_container, PostDetailsFragment()).commit()
+
+            }
 
             holder.likes.setOnClickListener {
                 val intent = Intent(mContext, LikesActivity::class.java)
