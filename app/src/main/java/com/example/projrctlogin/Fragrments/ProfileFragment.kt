@@ -19,6 +19,7 @@ import com.example.projrctlogin.Adpater.MyimagesAdpater
 import com.example.projrctlogin.Model.Post
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -51,6 +52,8 @@ class ProfileFragment : Fragment() {
     private lateinit var firebaseUser : FirebaseUser
     lateinit var editp : Button
 
+    lateinit var add: BottomNavigationItemView
+
     var postlist: List<Post>? = null
     var myimagesAdpater: MyimagesAdpater? = null
 
@@ -63,7 +66,6 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
 
         // Inflate the layout for this fragment
@@ -88,6 +90,10 @@ class ProfileFragment : Fragment() {
             {
                editp?.visibility = View.GONE
             }
+
+        add = requireActivity().findViewById(R.id.navigation_add)
+        add.visibility = View.GONE
+        userdtls()
 
         //recyclerview for upload Images
         var recyclerViewuploadimages: RecyclerView
@@ -309,6 +315,30 @@ class ProfileFragment : Fragment() {
 
                 }
             })
+    }
+
+    private fun userdtls()
+    {
+        val userRef = FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        userRef.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                {
+                    val user = snapshot.getValue<User>(User::class.java)
+                    val typeofuser = user!!.getTypeofaccount()
+                    if(typeofuser == "admin")
+                    {
+                        add.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
 
 }

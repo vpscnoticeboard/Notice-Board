@@ -58,8 +58,12 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_story)
 
+
         currentuserid = FirebaseAuth.getInstance().currentUser!!.uid
         userId = intent.getStringExtra("userId").toString()
+
+
+
 
         storiesProgressView = findViewById(R.id.stories_progress)
 
@@ -119,20 +123,20 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
             .child("story")
             .child(userId!!)
 
-        ref.addListenerForSingleValueEvent(object : ValueEventListener{
+        ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 (imageList as ArrayList<String>).clear()
                 (storyIdsList as ArrayList<String>).clear()
 
                 for (datasnapshot in snapshot.children)
                 {
-                    val story: Story? = snapshot.getValue<Story>(Story::class.java)
+                    val story: Story? = datasnapshot.getValue<Story>(Story::class.java)
                     val timecurrent = System.currentTimeMillis()
 
                     if (timecurrent>story!!.getTimeStart() && timecurrent<story!!.getTimeEnd())
                     {
                         (imageList as ArrayList<String>).add(story.getImageUrl())
-                        (storyIdsList as ArrayList<String>).add(story.getImageUrl())
+                        (storyIdsList as ArrayList<String>).add(story.getStoryId())
                     }
                 }
 

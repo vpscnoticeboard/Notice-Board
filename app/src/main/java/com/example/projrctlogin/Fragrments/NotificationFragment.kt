@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.Adpater.NotificationAdpater
 import com.example.projrctlogin.Model.Notification
+import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,6 +27,8 @@ class NotificationFragment : Fragment() {
     private var notificationlist: List<Notification>? = null
     private var notificationAdpater: NotificationAdpater? = null
 
+    lateinit var add: BottomNavigationItemView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,6 +42,10 @@ class NotificationFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view =  inflater.inflate(R.layout.fragment_notification, container, false)
+
+        add = requireActivity().findViewById(R.id.navigation_add)
+        add.visibility = View.GONE
+        userInfo()
 
         var recyclerView: RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view_notification)
@@ -79,6 +87,30 @@ class NotificationFragment : Fragment() {
                 }
 
             }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun userInfo()
+    {
+        val userRef = FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        userRef.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                {
+                    val user = snapshot.getValue<User>(User::class.java)
+                    val typeofuser = user!!.getTypeofaccount()
+                    if(typeofuser == "admin")
+                    {
+                        add.visibility = View.VISIBLE
+                    }
+                }
+            }
+
             override fun onCancelled(error: DatabaseError) {
 
             }

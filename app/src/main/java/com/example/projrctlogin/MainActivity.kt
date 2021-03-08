@@ -2,7 +2,9 @@ package com.example.projrctlogin
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.AutoCompleteTextView
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +15,23 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.projrctlogin.Fragrments.*
+import com.example.projrctlogin.Model.User
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class MainActivity : AppCompatActivity() {
 
     internal var selectedfragrment: Fragment? = null
+
+    lateinit var add: BottomNavigationItemView
+
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -50,7 +64,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        add = findViewById(R.id.navigation_add)
+        add.visibility = View.GONE
+
+        userInfo()
 
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
@@ -64,5 +84,29 @@ class MainActivity : AppCompatActivity() {
             fragmentTrans.commit()
 
         }
+
+    private fun userInfo()
+    {
+        val userRef = FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        userRef.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                {
+                    val user = snapshot.getValue<User>(User::class.java)
+                    val typeofuser = user!!.getTypeofaccount()
+                    if(typeofuser == "admin")
+                    {
+                        add.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
 
 }

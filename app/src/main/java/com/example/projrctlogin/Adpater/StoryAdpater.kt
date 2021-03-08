@@ -70,7 +70,7 @@ RecyclerView.Adapter<StoryAdpater.ViewHolder>()
             else
             {
                 val intent = Intent(mcontext, StoryActivity::class.java)
-                intent.putExtra("userid", story.getUserId())
+                intent.putExtra("userId", story.getUserId())
                 mcontext.startActivity(intent)
             }
 
@@ -92,7 +92,7 @@ RecyclerView.Adapter<StoryAdpater.ViewHolder>()
         init {
             story_image_seen = itemView.findViewById(R.id.story_image_seen)
             story_image = itemView.findViewById(R.id.story_image)
-            story_username = itemView.findViewById(R.id.story_username)
+            story_username = itemView.findViewById(R.id.story_username_item)
 
             //add story item
             story_plus_btn = itemView.findViewById(R.id.story_add)
@@ -124,7 +124,7 @@ RecyclerView.Adapter<StoryAdpater.ViewHolder>()
                     if (position!=0)
                     {
                         Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(viewHolder.story_image_seen)
-                        viewHolder.story_username!!.text = user.getEmail()
+                        viewHolder.story_username!!.setText(user.getFname())
                     }
                 }
             }

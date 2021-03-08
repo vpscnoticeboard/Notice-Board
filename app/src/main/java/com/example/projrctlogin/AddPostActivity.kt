@@ -29,7 +29,7 @@ class AddPostActivity : AppCompatActivity() {
 
     private var myurl = ""
     private var imageuri: Uri?= null
-    private var storagePostPicref: StorageReference? = null
+    private var storageStoryPicref: StorageReference? = null
 
     lateinit var progressBar : SpinKitView
 
@@ -39,7 +39,7 @@ class AddPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
 
-        storagePostPicref = FirebaseStorage.getInstance().reference.child("posts pictures")
+        storageStoryPicref = FirebaseStorage.getInstance().reference.child("posts pictures")
         progressBar=findViewById(R.id.progressbar)
 
         add_post_btn.setOnClickListener {
@@ -76,7 +76,7 @@ class AddPostActivity : AppCompatActivity() {
 
                 progressBar.visibility= View.VISIBLE
 
-                val fileref = storagePostPicref!!.child(System.currentTimeMillis().toString() + ".jpg")
+                val fileref = storageStoryPicref!!.child(System.currentTimeMillis().toString() + ".jpg")
 
                 val uploadTask: StorageTask<*>
                 uploadTask = fileref.putFile(imageuri!!)

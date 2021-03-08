@@ -13,11 +13,14 @@ import com.example.projrctlogin.Model.Post
 import com.example.projrctlogin.Model.Story
 import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.R
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_search.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,9 +32,11 @@ class HomeFragment : Fragment() {
 
     private var postAdpater: PostAdpater? = null
     private var postlist: MutableList<Post>? = null
-    private var followinglist: MutableList<Post>? = null
+    private var followinglist: MutableList<String>? = null
     private var storyAdpater: StoryAdpater? = null
     private var storylist: MutableList<Story>? = null
+
+    lateinit var add: BottomNavigationItemView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +45,17 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        add = requireActivity().findViewById(R.id.navigation_add)
+        add.visibility = View.GONE
+        userInfo()
+
         var recyclerView: RecyclerView? = null
         var recyclerViewStory: RecyclerView? = null
 
 
         recyclerView = view.findViewById(R.id.recycler_view_home)
         val linearLayoutManager = LinearLayoutManager(context)
+
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         recyclerView.layoutManager = linearLayoutManager
@@ -65,6 +75,7 @@ class HomeFragment : Fragment() {
         storyAdpater = context?.let { StoryAdpater(it, storylist as ArrayList<Story>) }
         recyclerViewStory.adapter = storyAdpater
 
+        retriveuser()
         retriveposts()
         retrivestorys()
 
@@ -72,6 +83,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun retriveposts() {
+        followinglist = ArrayList()
         val postref = FirebaseDatabase.getInstance().reference.child("posts")
 
         postref.addValueEventListener(object : ValueEventListener{
@@ -97,6 +109,32 @@ class HomeFragment : Fragment() {
 
     }
 
+
+
+    private fun retriveuser() {
+
+        val userref = FirebaseDatabase.getInstance().getReference().child("user")
+        userref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(datasnapshot: DataSnapshot) {
+                if (datasnapshot.exists()) {
+                    (followinglist as ArrayList<String>).clear()
+
+                    for (snapshot in datasnapshot.children) {
+                        snapshot.key?.let { (followinglist as ArrayList<String>).add(it) }
+
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+
+
+
     private fun retrivestorys() {
         val storyref = FirebaseDatabase.getInstance().reference.child("story")
 
@@ -106,22 +144,28 @@ class HomeFragment : Fragment() {
 
                 (storylist as ArrayList<Story>).clear()
 
-                (storylist as ArrayList<Story>).add(Story("", 0, 0, "",FirebaseAuth.getInstance().currentUser!!.uid!!))
+                (storylist as ArrayList<Story>).add(
+                    Story(
+                        "",
+                        0,
+                        0,
+                        "",
+                        FirebaseAuth.getInstance().currentUser!!.uid!!
+                    )
+                )
+                for (id in followinglist!!) {
+                    var countstory = 0
+                    var story: Story? = null
+                    for (snapshot in datasnapshot.child(id).children) {
+                        story = snapshot.getValue(Story::class.java)
 
-                var countstory = 0
-                var story: Story? = null
-                for (snapshot in datasnapshot.children)
-                {
-                    story = snapshot.getValue(Story::class.java)
-
-                    if (timeCurrent>story!!.getTimeStart() && timeCurrent<story!!.getTimeEnd())
-                    {
-                        countstory++
+                        if (timeCurrent > story!!.getTimeStart() && timeCurrent < story!!.getTimeEnd()) {
+                            countstory++
+                        }
                     }
-                }
-                if (countstory>0)
-                {
-                    (storylist as ArrayList<Story>).add(story!!)
+                    if (countstory > 0) {
+                        (storylist as ArrayList<Story>).add(story!!)
+                    }
                 }
                 storyAdpater!!.notifyDataSetChanged()
             }
@@ -132,6 +176,30 @@ class HomeFragment : Fragment() {
 
         })
 
+    }
+
+    private fun userInfo()
+    {
+        val userRef = FirebaseDatabase.getInstance().getReference().child("user").child(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        userRef.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                {
+                    val user = snapshot.getValue<User>(User::class.java)
+                    val typeofuser = user!!.getTypeofaccount()
+                    if(typeofuser == "admin")
+                    {
+                        add.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
     }
 
 }

@@ -16,9 +16,15 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.projrctlogin.MainActivity
+import com.example.projrctlogin.Model.User
 import com.example.projrctlogin.Register
 import com.github.ybq.android.spinkit.SpinKitView
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_loginpage.*
 import kotlinx.android.synthetic.main.activity_loginpage.view.*
@@ -34,6 +40,7 @@ class Loginpage : AppCompatActivity() {
     lateinit var btnlogin:Button
     lateinit var btnsignup:Button
     lateinit var forgatpass:TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getWindow().setFlags(
@@ -203,6 +210,8 @@ class Loginpage : AppCompatActivity() {
         finish()
 
     }
+
+
 }
 
 
