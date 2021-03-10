@@ -5,11 +5,11 @@
     >
 
 
-    <corners android:radius="4dp"></corners>
+    <corners android:radius="10pt"></corners>
 
 
     <stroke android:width="4dp"
-        android:color="@color/colorPrimaryDark"
+        android:color="@color/colorAccent"
         ></stroke>
 
 

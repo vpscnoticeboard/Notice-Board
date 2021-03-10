@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.Toast
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_reset_password.*
 
 class ResetPassword : AppCompatActivity() {
     lateinit var progressbar:SpinKitView
@@ -30,8 +29,8 @@ class ResetPassword : AppCompatActivity() {
         //R.id set
 
         progressbar=findViewById(R.id.progressbar)
-        button_reset_password=findViewById(R.id.button_reset_password)
-        text_email=findViewById(R.id.text_email)
+        button_reset_password=findViewById(R.id.update_password)
+        text_email=findViewById(R.id.newpassword)
 
         // on click of password reset
         button_reset_password.setOnClickListener {
@@ -65,5 +64,9 @@ class ResetPassword : AppCompatActivity() {
                     }
                 }
         }
+    }
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

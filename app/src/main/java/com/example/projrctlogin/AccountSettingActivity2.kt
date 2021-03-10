@@ -7,10 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.projrctlogin.Model.User
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.tasks.Continuation
@@ -30,6 +27,8 @@ import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_account_setting2.*
+import kotlinx.android.synthetic.main.activity_account_setting2.progressbar
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.lang.Exception
@@ -45,6 +44,7 @@ class AccountSettingActivity2 : AppCompatActivity() {
 
     lateinit var progressBar : SpinKitView
 
+    lateinit var update_password:Button
 
     var formate = SimpleDateFormat("dd MMM, YYYY",Locale.US)
     //variable for calender button
@@ -61,6 +61,7 @@ class AccountSettingActivity2 : AppCompatActivity() {
         storageProfilePicref = FirebaseStorage.getInstance().reference.child("profile pictures")
         progressBar=findViewById(R.id.progressbar)
 
+        update_password=findViewById(R.id.updatepassword)
 
 
 
@@ -68,6 +69,16 @@ class AccountSettingActivity2 : AppCompatActivity() {
 
         btn_show=findViewById(R.id.caledner_icon_profile_frag)
         calender_profile_frag=findViewById(R.id.calender_profile_frag)
+
+        //update passowrd on click
+       update_password.setOnClickListener {
+            //progressbar.visibility=View.VISIBLE
+//            var intent = Intent(applicationContext, updatepassword::class.java)
+//            startActivity(intent)
+           val intent = Intent(this@AccountSettingActivity2, com.example.projrctlogin.updatepassword::class.java)
+           //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+           startActivity(intent)
+        }
 
         btn_show.setOnClickListener {
             val now = Calendar.getInstance()
@@ -284,5 +295,15 @@ class AccountSettingActivity2 : AppCompatActivity() {
             .check()
         return name_check
     }
+
+   /* override fun onStart() {
+        super.onStart()
+        progressBar.visibility= View.INVISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressBar.visibility= View.INVISIBLE
+    }*/
 
 }

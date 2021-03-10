@@ -199,16 +199,15 @@
 
                 <ImageButton
                     android:id="@+id/image_save_btn"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="1dp"
                     android:layout_height="49dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/save_large_icon"
                     android:layout_weight="1"
-                    style="?android:attr/buttonBarButtonStyle"
-                    >
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/save_large_icon">
 
                 </ImageButton>
-                
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView

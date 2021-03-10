@@ -207,7 +207,7 @@ class Loginpage : AppCompatActivity() {
         progressbar.visibility=View.VISIBLE
         val intent = Intent(applicationContext, ResetPassword::class.java)
         startActivity(intent)
-        finish()
+
 
     }
 
