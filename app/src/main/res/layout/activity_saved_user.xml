@@ -7,18 +7,17 @@
     tools:context=".LikesActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
-        app:title="Likes"
         >
 
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/toolbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >

@@ -46,7 +46,6 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         add = requireActivity().findViewById(R.id.navigation_add)
-        add.visibility = View.GONE
         userInfo()
 
         var recyclerView: RecyclerView? = null
@@ -189,9 +188,9 @@ class HomeFragment : Fragment() {
                 {
                     val user = snapshot.getValue<User>(User::class.java)
                     val typeofuser = user!!.getTypeofaccount()
-                    if(typeofuser == "admin")
+                    if(typeofuser != "admin")
                     {
-                        add.visibility = View.VISIBLE
+                        add.visibility = View.GONE
                     }
                 }
             }

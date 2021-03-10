@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import jp.shts.android.storiesprogressview.StoriesProgressView
 import kotlinx.android.synthetic.main.activity_story.*
+import kotlin.properties.Delegates
 
 class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
 
@@ -61,6 +62,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
 
         currentuserid = FirebaseAuth.getInstance().currentUser!!.uid
         userId = intent.getStringExtra("userId").toString()
+       // counter = intent.getStringExtra("userId")!!.toInt()
 
 
 
@@ -220,7 +222,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
     }
 
     override fun onPrev() {
-
+        if (counter - 1 < 0) return
         Picasso.get().load(imageList!![--counter]).placeholder(R.drawable.profile).into(image_story)
         seenNumber(storyIdsList!![counter])
 
