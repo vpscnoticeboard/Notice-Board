@@ -19,6 +19,8 @@
         <activity android:name=".LikesActivity" />
         <activity android:name=".CommentsActivity" />
         <activity android:name=".AddPostActivity" />
+        <activity android:name=".updatepassword"
+            android:theme="@style/actionbar"/>
         <activity
             android:name=".ResetPassword"
             android:theme="@style/actionbar" />

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,7 +51,7 @@ private const val ARG_PARAM2 = "param2"
 class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser : FirebaseUser
-    lateinit var editp : Button
+    lateinit var editp : LinearLayout
 
     lateinit var add: BottomNavigationItemView
 
@@ -70,30 +71,29 @@ class ProfileFragment : Fragment() {
 
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        editp=view.findViewById(R.id.edit_account_setting_btn)
+        add = requireActivity().findViewById(R.id.navigation_add)
+        userdtls()
+        editp=view.findViewById(R.id.profile_buttons)
 
-            firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
-            val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
+        val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
 
-            if (pref !=null)
+        if (pref !=null)
             {
                 this.profileId = pref.getString("profileId","none").toString()
             }
 
-            if (profileId == firebaseUser.uid)
+        if (profileId == firebaseUser.uid)
             {
                 view.edit_account_setting_btn.text = "Edit Profile"
             }
 
             else if (profileId != firebaseUser.uid)
             {
-               editp?.visibility = View.GONE
+                editp?.visibility = View.GONE
             }
 
-        add = requireActivity().findViewById(R.id.navigation_add)
-        add.visibility = View.GONE
-        userdtls()
 
         //recyclerview for upload Images
         var recyclerViewuploadimages: RecyclerView
@@ -131,7 +131,6 @@ class ProfileFragment : Fragment() {
         savedimagebtn.setOnClickListener {
             recyclerViewsaveimages.visibility = View.VISIBLE
             recyclerViewuploadimages.visibility = View.GONE
-            uploadedimagebtn.visibility = View.GONE
         }
 
 
@@ -328,9 +327,9 @@ class ProfileFragment : Fragment() {
                 {
                     val user = snapshot.getValue<User>(User::class.java)
                     val typeofuser = user!!.getTypeofaccount()
-                    if(typeofuser == "admin")
+                    if(typeofuser != "admin")
                     {
-                        add.visibility = View.VISIBLE
+                        add.visibility = View.GONE
                     }
                 }
             }

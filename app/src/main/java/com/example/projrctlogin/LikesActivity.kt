@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.auth.User
+import kotlinx.android.synthetic.main.activity_saved_user.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class LikesActivity : AppCompatActivity() {
@@ -29,7 +30,13 @@ class LikesActivity : AppCompatActivity() {
         val intent = intent
         id = intent.getStringExtra("id")!!
         title = intent.getStringExtra("title")!!
-
+        
+        setSupportActionBar(toolbar1)
+        supportActionBar!!.title = "Likes"
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar1.setNavigationOnClickListener {
+            finish()
+        }
 
         var recyclerView: RecyclerView
         recyclerView = findViewById(R.id.recycler_view)

@@ -181,7 +181,7 @@ class AccountSettingActivity2 : AppCompatActivity() {
 
                         Toast.makeText(this,"Account information is updated",Toast.LENGTH_SHORT).show()
 
-                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        val intent = Intent(this@AccountSettingActivity2, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
@@ -207,7 +207,7 @@ class AccountSettingActivity2 : AppCompatActivity() {
 
         Toast.makeText(this,"Account information is updated",Toast.LENGTH_SHORT).show()
 
-        val intent = Intent(applicationContext, MainActivity::class.java)
+        val intent = Intent(this@AccountSettingActivity2, MainActivity::class.java)
         startActivity(intent)
         finish()
 

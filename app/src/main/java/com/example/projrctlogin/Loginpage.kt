@@ -74,29 +74,6 @@ class Loginpage : AppCompatActivity() {
     }
 
 
-    /*fun btnclick(view: View){
-//        val emails:Boolean=emailcheck(emailv)
-//        val passwords:Boolean=passwordcheck(passwordv)
-
-        val btnid=view as Button
-//            if(btnid.id == btnlogin.id) {
-//
-//                    if (emails and passwords) {
-//                        progressBar.visibility=View.VISIBLE
-//                        signinuser()
-//                    }
-//            }
-        if(btnid.id == btnsignup.id)
-        {
-            progressBar.visibility=View.VISIBLE
-           // handler= Handler()
-            //handler.postDelayed({
-                val intent=Intent(applicationContext, Register::class.java)
-                startActivity(intent)//intent for sign up
-           // },3000)
-        }
-    }*/
-
     private fun signinuser() {
 
         progressBar.visibility=View.VISIBLE
@@ -117,7 +94,8 @@ class Loginpage : AppCompatActivity() {
                 if (task.isSuccessful) {
                     ProgressDialog.dismiss()
                     Toast.makeText(this,"Suscessfully Logged In...",Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    val intent = Intent(this@Loginpage, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                     finish()
                 }

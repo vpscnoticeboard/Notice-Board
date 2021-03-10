@@ -200,7 +200,7 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         //firebase auth variable
                        val maut : FirebaseAuth = FirebaseAuth.getInstance()
 
-                       //creating user in firebase auth and if user creation is successful then adding data to realtime data base
+                       //creating user in firebase auth and if user creation is successful then adding data to realtime database
                        maut.createUserWithEmailAndPassword(email,password)
                            .addOnCompleteListener{task ->
                                if (task.isSuccessful) {
@@ -225,7 +225,6 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                            {
                                                 ProgressDialog.dismiss()
                                                Toast.makeText(this,"Account Has Been Created...",Toast.LENGTH_SHORT).show()
-                                               //FirebaseAuth.getInstance().signOut()
                                                handler = Handler()
                                                handler.postDelayed({
                                                    val intent = Intent(applicationContext, Mobileverify::class.java)
@@ -234,7 +233,6 @@ class Register : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                                    startActivity(intent)
                                                    finish()
                                                },1000)
-                                               //FirebaseAuth.getInstance().signOut()
                                            }
                                            else
                                            {

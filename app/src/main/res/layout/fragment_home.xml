@@ -28,7 +28,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:contentDescription="ijg"
-                    android:src="@drawable/noticefont7" />
+                    android:src="@drawable/noticefont3"
+                    app:tint="#FFFFFF" />
 
 
             </RelativeLayout>

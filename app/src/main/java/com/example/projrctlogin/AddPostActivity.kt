@@ -68,8 +68,8 @@ class AddPostActivity : AppCompatActivity() {
         when
         {
 
-            imageuri ==null -> Toast.makeText(this,"Please select image first",Toast.LENGTH_LONG).show()
-            //TextUtils.isEmpty(discription_post.text.toString()) -> Toast.makeText(this,"Discripton Is Empty",Toast.LENGTH_LONG).show()
+            imageuri == null -> Toast.makeText(this,"Please select image first",Toast.LENGTH_LONG).show()
+            TextUtils.isEmpty(discription_post.text.toString()) -> Toast.makeText(this,"Discripton Is Empty",Toast.LENGTH_LONG).show()
 
 
             else ->{
@@ -110,7 +110,7 @@ class AddPostActivity : AppCompatActivity() {
 
                             Toast.makeText(this,"Post Added Succesfully",Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(applicationContext, MainActivity::class.java)
+                            val intent = Intent(this@AddPostActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
