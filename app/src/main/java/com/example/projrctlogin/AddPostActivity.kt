@@ -1,6 +1,7 @@
 package com.example.projrctlogin
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -21,29 +22,34 @@ import com.google.firebase.storage.UploadTask
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_account_setting2.*
 import kotlinx.android.synthetic.main.activity_add_post.*
+import kotlinx.android.synthetic.main.activity_comments.*
 import java.util.HashMap
 
 class AddPostActivity : AppCompatActivity() {
 
 
-
     private var myurl = ""
     private var imageuri: Uri?= null
     private var storageStoryPicref: StorageReference? = null
-
-    lateinit var progressBar : SpinKitView
-
-
+    private var postidaddnotification = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
 
         storageStoryPicref = FirebaseStorage.getInstance().reference.child("posts pictures")
-        progressBar=findViewById(R.id.progressbar)
+
 
         add_post_btn.setOnClickListener {
             uploadImage()
+        }
+
+        close_add_post_btn.setOnClickListener {
+
+            val intent = Intent(this@AddPostActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
         }
 
         CropImage.activity()
@@ -73,8 +79,13 @@ class AddPostActivity : AppCompatActivity() {
 
 
             else ->{
+                //Toast.makeText(this,"Uploading Post....",Toast.LENGTH_LONG).show()
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Adding new post")
+                progressDialog.setMessage("Please wait, we are adding your post...")
+                progressDialog.show()
 
-                progressBar.visibility= View.VISIBLE
+
 
                 val fileref = storageStoryPicref!!.child(System.currentTimeMillis().toString() + ".jpg")
 
@@ -85,7 +96,8 @@ class AddPostActivity : AppCompatActivity() {
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             throw it
-                            progressBar.visibility= View.INVISIBLE
+                            progressDialog.dismiss()
+//                            progressBar.visibility= View.INVISIBLE
                         }
 
                     }
@@ -108,7 +120,13 @@ class AddPostActivity : AppCompatActivity() {
 
                             ref.child(postid).updateChildren(postmap)
 
+                            //accessing postid for adding post notificaion
+                            postidaddnotification = postid
+
                             Toast.makeText(this,"Post Added Succesfully",Toast.LENGTH_SHORT).show()
+
+                            addNotification()
+                            addNotificationadmin()
 
                             val intent = Intent(this@AddPostActivity, MainActivity::class.java)
                             startActivity(intent)
@@ -116,11 +134,43 @@ class AddPostActivity : AppCompatActivity() {
                         }
                         else
                         {
-                            progressBar.visibility= View.INVISIBLE
+//                            progressBar.visibility= View.INVISIBLE
                         }
                     }
                     )
+                add_post_btn.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun addNotification()
+    {
+        val notiref = FirebaseDatabase.getInstance().getReference()
+            .child("notifications2")
+
+        val notiMap = HashMap<String, Any>()
+        notiMap["userid"] = FirebaseAuth.getInstance().currentUser!!.uid
+        notiMap["text"] = "Added a new post..."
+        notiMap["postid"] = postidaddnotification
+        notiMap["ispost"] = true
+
+        notiref.push().setValue(notiMap)
+
+    }
+
+    private fun addNotificationadmin()
+    {
+        val notiref = FirebaseDatabase.getInstance().getReference()
+            .child("notifications")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+
+        val notiMap = HashMap<String, Any>()
+        notiMap["userid"] = FirebaseAuth.getInstance().currentUser!!.uid
+        notiMap["text"] = "Added a new post..."
+        notiMap["postid"] = postidaddnotification
+        notiMap["ispost"] = true
+
+        notiref.push().setValue(notiMap)
+
     }
 }

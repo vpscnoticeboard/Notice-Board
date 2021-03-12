@@ -1,11 +1,13 @@
 package com.example.projrctlogin
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.tasks.Continuation
@@ -56,12 +58,13 @@ class AddStoryActivity : AppCompatActivity()
     private fun uploadstory() {
         when
         {
-
             imageuri == null -> Toast.makeText(this,"Please select image first", Toast.LENGTH_LONG).show()
 
-
             else ->{
-
+                val progressDialog = ProgressDialog(this)
+                progressDialog.setTitle("Adding new story")
+                progressDialog.setMessage("Please wait, we are adding your story...")
+                progressDialog.show()
 
                 val fileref = storagestoryPicref!!.child(System.currentTimeMillis().toString() + ".jpg")
 
@@ -72,6 +75,7 @@ class AddStoryActivity : AppCompatActivity()
                     if (!task.isSuccessful) {
                         task.exception?.let {
                             throw it
+                            progressDialog.dismiss()
                         }
 
                     }

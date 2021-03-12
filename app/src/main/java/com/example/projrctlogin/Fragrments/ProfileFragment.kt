@@ -51,7 +51,8 @@ private const val ARG_PARAM2 = "param2"
 class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser : FirebaseUser
-    lateinit var editp : LinearLayout
+    lateinit var imagesavebtn : ImageButton
+    lateinit var editbtn : Button
 
     lateinit var add: BottomNavigationItemView
 
@@ -73,7 +74,9 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         add = requireActivity().findViewById(R.id.navigation_add)
         userdtls()
-        editp=view.findViewById(R.id.profile_buttons)
+
+        editbtn = view.findViewById(R.id.edit_account_setting_btn)
+        imagesavebtn=view.findViewById(R.id.image_save_btn)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
 
@@ -91,7 +94,8 @@ class ProfileFragment : Fragment() {
 
             else if (profileId != firebaseUser.uid)
             {
-                editp?.visibility = View.GONE
+                editbtn?.visibility = View.GONE
+                imagesavebtn?.visibility = View.GONE
             }
 
 

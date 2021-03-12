@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat.startActivity
@@ -29,8 +30,8 @@ import kotlinx.android.synthetic.main.fragment_profile.view.*
 class StoryAdpater (private val mcontext: Context, private val mStory: List<Story>):
 RecyclerView.Adapter<StoryAdpater.ViewHolder>()
 {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         return if (viewType == 0)
         {
             val view = LayoutInflater.from(mcontext).inflate(R.layout.add_story_items, parent,false)

@@ -108,6 +108,12 @@ class AccountSettingActivity2 : AppCompatActivity() {
             finish()
         }
 
+        close_profile_btn.setOnClickListener {
+            val intent = Intent(this@AccountSettingActivity2, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
         save_info_profile_btn.setOnClickListener {
            if(checker == "clicked")

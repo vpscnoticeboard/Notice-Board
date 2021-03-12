@@ -3,7 +3,8 @@
     android:layout_width="60dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginStart="10dp">
+    android:layout_marginStart="10dp"
+    android:id="@+id/add_story_items_layout">
 
     <RelativeLayout
         android:layout_width="50dp"

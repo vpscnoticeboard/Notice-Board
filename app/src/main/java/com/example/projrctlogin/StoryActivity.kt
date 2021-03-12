@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.projrctlogin.Adpater.StoryAdpater
 import com.example.projrctlogin.Model.Story
@@ -66,7 +67,6 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
 
 
 
-
         storiesProgressView = findViewById(R.id.stories_progress)
 
         layout_seen.visibility = View.GONE
@@ -75,7 +75,7 @@ class StoryActivity : AppCompatActivity(), StoriesProgressView.StoriesListener {
         if (userId == currentuserid)
         {
             layout_seen.visibility = View.VISIBLE
-            story_delete.visibility = View.VISIBLE
+            story_delete.visibility = View.GONE
         }
 
         getStories(userId!!)

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projrctlogin.Adpater.PostAdpater
@@ -37,6 +38,7 @@ class HomeFragment : Fragment() {
     private var storylist: MutableList<Story>? = null
 
     lateinit var add: BottomNavigationItemView
+    lateinit var add_layout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

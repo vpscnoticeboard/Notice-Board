@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_notification.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,6 +27,9 @@ class NotificationFragment : Fragment() {
 
     private var notificationlist: List<Notification>? = null
     private var notificationAdpater: NotificationAdpater? = null
+
+    private var notificationpostlist: List<Notification>? = null
+    private var notificationpostAdpater: NotificationAdpater? = null
 
     lateinit var add: BottomNavigationItemView
 
@@ -46,6 +50,7 @@ class NotificationFragment : Fragment() {
         add = requireActivity().findViewById(R.id.navigation_add)
         userInfo()
 
+
         var recyclerView: RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view_notification)
         recyclerView?.setHasFixedSize(true)
@@ -56,6 +61,18 @@ class NotificationFragment : Fragment() {
         notificationAdpater = context?.let { NotificationAdpater(it, notificationlist as ArrayList<Notification>) }
         recyclerView.adapter = notificationAdpater
 
+
+        //for adding post user side
+        var recyclerViewpost: RecyclerView
+        recyclerViewpost = view.findViewById(R.id.recycler_view_notification_post)
+        recyclerViewpost?.setHasFixedSize(true)
+        recyclerViewpost?.layoutManager = LinearLayoutManager(context)
+
+        notificationpostlist = ArrayList()
+
+        notificationpostAdpater = context?.let { NotificationAdpater(it, notificationpostlist as ArrayList<Notification>) }
+        recyclerViewpost.adapter = notificationpostAdpater
+
         readnotifications()
 
         return view
@@ -65,6 +82,7 @@ class NotificationFragment : Fragment() {
         val notiref = FirebaseDatabase.getInstance().getReference()
             .child("notifications")
             .child(FirebaseAuth.getInstance().currentUser!!.uid)
+
 
         notiref.addValueEventListener(object: ValueEventListener{
 
@@ -106,10 +124,44 @@ class NotificationFragment : Fragment() {
                     if(typeofuser != "admin")
                     {
                         add.visibility = View.GONE
+                        notificationpost()
+                        recycler_view_notification.visibility = View.GONE
+                        recycler_view_notification_post.visibility = View.VISIBLE
                     }
                 }
             }
 
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun notificationpost() {
+        val notiref = FirebaseDatabase.getInstance().getReference()
+            .child("notifications2")
+
+
+        notiref.addValueEventListener(object: ValueEventListener{
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                if (dataSnapshot.exists())
+                {
+                    (notificationpostlist as ArrayList<Notification>).clear()
+
+                    for(snapshot in dataSnapshot.children)
+                    {
+                        val notification = snapshot.getValue(Notification::class.java)
+
+                        (notificationpostlist as ArrayList<Notification>).add(notification!!)
+
+                    }
+                    Collections.reverse(notificationpostlist)
+                    notificationpostAdpater!!.notifyDataSetChanged()
+                }
+
+            }
             override fun onCancelled(error: DatabaseError) {
 
             }
