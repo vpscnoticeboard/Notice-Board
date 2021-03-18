@@ -190,9 +190,9 @@ class HomeFragment : Fragment() {
                 {
                     val user = snapshot.getValue<User>(User::class.java)
                     val typeofuser = user!!.getTypeofaccount()
-                    if(typeofuser != "admin")
+                    if(typeofuser == "admin")
                     {
-                        add.visibility = View.GONE
+                        add.visibility = View.VISIBLE
                     }
                 }
             }

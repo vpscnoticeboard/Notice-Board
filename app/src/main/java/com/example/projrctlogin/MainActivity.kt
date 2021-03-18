@@ -103,9 +103,9 @@ class MainActivity : AppCompatActivity() {
                 {
                     val user = snapshot.getValue<User>(User::class.java)
                     val typeofuser = user!!.getTypeofaccount()
-                    if(typeofuser == "admin")
+                    if(typeofuser != "admin")
                     {
-                        add.visibility = View.VISIBLE
+                        add.visibility = View.GONE
                     }
                 }
             }
@@ -115,5 +115,4 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
 }

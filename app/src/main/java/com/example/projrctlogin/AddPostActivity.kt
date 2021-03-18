@@ -1,19 +1,25 @@
 package com.example.projrctlogin
 
-import android.app.Activity
-import android.app.ProgressDialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -27,6 +33,9 @@ import java.util.HashMap
 
 class AddPostActivity : AppCompatActivity() {
 
+    private val CHANNEL_ID = "channel_id_example_01"
+    private val notificatioid = 101
+
 
     private var myurl = ""
     private var imageuri: Uri?= null
@@ -37,12 +46,16 @@ class AddPostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
 
+
         storageStoryPicref = FirebaseStorage.getInstance().reference.child("posts pictures")
+
 
 
         add_post_btn.setOnClickListener {
             uploadImage()
         }
+
+
 
         close_add_post_btn.setOnClickListener {
 
@@ -53,7 +66,7 @@ class AddPostActivity : AppCompatActivity() {
         }
 
         CropImage.activity()
-            .setAspectRatio(20,20)
+            .setAspectRatio(15,20)
             .start(this@AddPostActivity)
 
     }
@@ -97,7 +110,6 @@ class AddPostActivity : AppCompatActivity() {
                         task.exception?.let {
                             throw it
                             progressDialog.dismiss()
-//                            progressBar.visibility= View.INVISIBLE
                         }
 
                     }
@@ -134,11 +146,9 @@ class AddPostActivity : AppCompatActivity() {
                         }
                         else
                         {
-//                            progressBar.visibility= View.INVISIBLE
                         }
                     }
                     )
-                add_post_btn.visibility = View.VISIBLE
             }
         }
     }
@@ -173,4 +183,5 @@ class AddPostActivity : AppCompatActivity() {
         notiref.push().setValue(notiMap)
 
     }
+
 }
