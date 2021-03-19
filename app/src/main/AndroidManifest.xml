@@ -26,18 +26,19 @@
             android:theme="@style/actionbar" />
         <activity android:name=".Mobileverify" />
         <activity android:name=".Mobileotp" />
-        <activity android:name=".Splash_screen" />
+        <activity android:name=".Splash_screen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Register"
             android:theme="@style/actionbar" />
         <activity
             android:name=".Loginpage"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".AccountSettingActivity2" />
         <activity

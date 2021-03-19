@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     private var storylist: MutableList<Story>? = null
 
     lateinit var add: BottomNavigationItemView
-    lateinit var add_layout: LinearLayout
+    lateinit var storyitem_layout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,6 +71,7 @@ class HomeFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         val linearLayoutManager2 = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewStory.layoutManager = linearLayoutManager2
+
 
         storylist = ArrayList()
         storyAdpater = context?.let { StoryAdpater(it, storylist as ArrayList<Story>) }
@@ -137,6 +138,7 @@ class HomeFragment : Fragment() {
 
 
     private fun retrivestorys() {
+
         val storyref = FirebaseDatabase.getInstance().reference.child("story")
 
         storyref.addValueEventListener(object : ValueEventListener{
@@ -190,9 +192,9 @@ class HomeFragment : Fragment() {
                 {
                     val user = snapshot.getValue<User>(User::class.java)
                     val typeofuser = user!!.getTypeofaccount()
-                    if(typeofuser == "admin")
+                    if(typeofuser != "admin")
                     {
-                        add.visibility = View.VISIBLE
+                        add.visibility = View.GONE
                     }
                 }
             }

@@ -334,6 +334,9 @@ class ProfileFragment : Fragment() {
                     if(typeofuser != "admin")
                     {
                         add.visibility = View.GONE
+                        image_grid_view_btn.visibility = View.GONE
+                        recycler_upload_pic.visibility = View.GONE
+                        recycler_saved_pic.visibility = View.VISIBLE
                     }
                 }
             }
